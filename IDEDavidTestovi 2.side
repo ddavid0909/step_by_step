@@ -1,0 +1,840 @@
+{
+  "id": "c37f0930-ef5c-49fe-8773-83282d45de31",
+  "version": "2.0",
+  "name": "test_komentari",
+  "url": "http://127.0.0.1:8000/",
+  "tests": [{
+    "id": "3dc72c9e-9013-4edf-8459-d549f273dd99",
+    "name": "odobri_komentar_nema_komentara",
+    "commands": [{
+      "id": "7377de22-9c5d-45cd-9093-cce584cd98d3",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "007cdfca-d558-4948-a5a6-47e4ef6b2fb7",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1163x903",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "17408bc8-b497-4013-a525-c9fa5d20a53e",
+      "comment": "",
+      "command": "click",
+      "target": "id=loginForm",
+      "targets": [
+        ["id=loginForm", "id"],
+        ["css=#loginForm", "css:finder"],
+        ["xpath=//form[@id='loginForm']", "xpath:attributes"],
+        ["xpath=//form", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7fa6801e-04eb-4635-aaa5-4ffb0eb93e5c",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "42a07038-d4e7-49ac-8ee6-f7e0046923b7",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "admin"
+    }, {
+      "id": "595fd2a9-9b20-4694-b3b0-49fdc5a60a5d",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3506d038-a9b0-4020-863a-802c1fbfb5c7",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "admin"
+    }, {
+      "id": "b3530ee0-8459-40eb-b471-e76fdc8e33e8",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "38dc1e6c-3082-413e-b2ef-a389a91e1633",
+      "comment": "",
+      "command": "click",
+      "target": "id=komentariLinkId",
+      "targets": [
+        ["id=komentariLinkId", "id"],
+        ["linkText=Komentari", "linkText"],
+        ["css=#komentariLinkId", "css:finder"],
+        ["xpath=//a[contains(text(),'Komentari')]", "xpath:link"],
+        ["xpath=//a[@id='komentariLinkId']", "xpath:attributes"],
+        ["xpath=//a[contains(@href, '/odobriKomentarPregled')]", "xpath:href"],
+        ["xpath=//div[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Komentari')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "06fd407d-f409-4f3c-aaa3-0ce5ef29a84a",
+      "comment": "",
+      "command": "click",
+      "target": "css=p:nth-child(5)",
+      "targets": [
+        ["css=p:nth-child(5)", "css:finder"],
+        ["xpath=//form[@id='commentForm']/p", "xpath:idRelative"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Nema komentara za odobravanje')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ff105d4-d98f-465e-a9ab-2605df586ac6",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=p:nth-child(5)",
+      "targets": [
+        ["css=p:nth-child(5)", "css:finder"],
+        ["xpath=//form[@id='commentForm']/p", "xpath:idRelative"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Nema komentara za odobravanje')]", "xpath:innerText"]
+      ],
+      "value": "Nema komentara za odobravanje"
+    }, {
+      "id": "d7e77205-8f6e-4e76-ac45-2458fc925432",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=LOG OUT",
+      "targets": [
+        ["linkText=LOG OUT", "linkText"],
+        ["css=div:nth-child(6) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'LOG OUT')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/logout')]", "xpath:href"],
+        ["xpath=//div[5]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'LOG OUT')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "49f9b513-6d4f-461b-9bd2-21b8d4d6e2c7",
+    "name": "korisnik_pregleda_komentare_nema_komentara",
+    "commands": [{
+      "id": "f8e7020a-4c1b-4cb9-b43f-3ca953945289",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "db25b8da-0e5a-4999-b4b3-1b3f39d3efdc",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1200x892",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7893302f-db15-435f-b71b-a529ebe237d4",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5e87ddda-5b47-401c-b074-78b34ec19026",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "dd210102d@student.etf.bg.ac.rs"
+    }, {
+      "id": "233333f6-5da8-4e35-8f87-d40c5c40a66f",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "647e85e7-2f97-44fd-b79c-a45bf02c0f0e",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "62702dea-cb44-4dc7-aedf-0735d3f92084",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(7)",
+      "targets": [
+        ["css=input:nth-child(7)", "css:finder"],
+        ["xpath=//input[@value='Uloguj se']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[4]", "xpath:idRelative"],
+        ["xpath=//input[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "52ce26fc-c0a4-41e1-b8e0-e12a338db887",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Komentari",
+      "targets": [
+        ["linkText=Komentari", "linkText"],
+        ["css=.col-md-12 > .toolbar-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Komentari')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/prikaziTrenera')]", "xpath:href"],
+        ["xpath=//div[5]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Komentari')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3bfa4fe1-186e-48d3-bb52-a3aa62876aef",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Ivan",
+      "targets": [
+        ["linkText=Ivan", "linkText"],
+        ["css=li:nth-child(7) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Ivan')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/trenerKorisnik/24')]", "xpath:href"],
+        ["xpath=//li[7]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Ivan')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "495f51ed-25af-4dbd-be82-0846d88ccea5",
+      "comment": "",
+      "command": "click",
+      "target": "css=p",
+      "targets": [
+        ["css=p", "css:finder"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Trenutno nema komentara o treneru.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "86a41982-a9b1-444e-9b3c-243b62d08f09",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=p",
+      "targets": [
+        ["css=p", "css:finder"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Trenutno nema komentara o treneru.')]", "xpath:innerText"]
+      ],
+      "value": "Trenutno nema komentara o treneru."
+    }]
+  }, {
+    "id": "7c97730e-9faf-4b02-9692-da958c08f2dd",
+    "name": "trener_pregleda_komentare_nema_komentara",
+    "commands": [{
+      "id": "e4ce10b5-f815-4591-8e2d-0e5cd217fa5d",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "81687d15-8e09-4b09-8656-259a1b6579e7",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1200x892",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b243fe73-1aaa-4dfe-8e79-b0626fa9b501",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "35da1381-525a-4836-87e6-b6e714b16d8f",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "Ivan"
+    }, {
+      "id": "6c464003-a546-40a3-9add-839571f87fdc",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fee0894f-71bd-46b8-9564-ab51f7644f86",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "1234567890"
+    }, {
+      "id": "ef054f22-ba19-403a-a1ca-2e7aab1a79bb",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(7)",
+      "targets": [
+        ["css=input:nth-child(7)", "css:finder"],
+        ["xpath=//input[@value='Uloguj se']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[4]", "xpath:idRelative"],
+        ["xpath=//input[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "da213ef2-4b9e-49f3-9820-39780613cad8",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Komentari",
+      "targets": [
+        ["linkText=Komentari", "linkText"],
+        ["css=.col-sm-6:nth-child(4) > .toolbar-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Komentari')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/trenerTrener/24')]", "xpath:href"],
+        ["xpath=//div[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Komentari')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "90259df4-83ea-49de-a7a9-dde08b9aad7f",
+      "comment": "",
+      "command": "click",
+      "target": "css=p",
+      "targets": [
+        ["css=p", "css:finder"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Trenutno nema komentara o treneru.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "af42b8e6-233e-40aa-9175-7c310b6fb7f4",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=p",
+      "targets": [
+        ["css=p", "css:finder"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Trenutno nema komentara o treneru.')]", "xpath:innerText"]
+      ],
+      "value": "Trenutno nema komentara o treneru."
+    }, {
+      "id": "ba0097a1-97a5-40c1-836e-26ea0f67ac79",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=LOG OUT",
+      "targets": [
+        ["linkText=LOG OUT", "linkText"],
+        ["css=div:nth-child(5) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'LOG OUT')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/logout')]", "xpath:href"],
+        ["xpath=//body/div[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'LOG OUT')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "2d84c156-5560-4f89-b4a9-6a781cef73ca",
+    "name": "gost_pregleda_komentare_o_teretani",
+    "commands": [{
+      "id": "bb1030dc-2425-4b4b-9359-03252c895d81",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6148a275-5562-48df-9ca6-de2f39687aaf",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1200x892",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fb02442e-5d66-4981-a8ee-8edb95a7fd65",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Nastavi bez prijavljivanja",
+      "targets": [
+        ["linkText=Nastavi bez prijavljivanja", "linkText"],
+        ["css=div:nth-child(9) > .link", "css:finder"],
+        ["xpath=//a[contains(text(),'Nastavi bez prijavljivanja')]", "xpath:link"],
+        ["xpath=//form[@id='loginForm']/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/gostPocetna')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Nastavi bez prijavljivanja')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "38efd823-1bac-45d2-9553-3ddd3bad9670",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=O nama",
+      "targets": [
+        ["linkText=O nama", "linkText"],
+        ["css=.col-sm-4:nth-child(1) > .toolbar-item", "css:finder"],
+        ["xpath=//a[contains(text(),'O nama')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/gostKomentar')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'O nama')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "47c3297a-8879-46fe-a5bb-3e802c070c43",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-komentar",
+      "targets": [
+        ["id=show-komentar", "id"],
+        ["css=#show-komentar", "css:finder"],
+        ["xpath=//button[@id='show-komentar']", "xpath:attributes"],
+        ["xpath=//div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Komentari')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d6a8ca01-69b3-4c4f-92d2-f9c85aee8c15",
+      "comment": "",
+      "command": "click",
+      "target": "css=h3:nth-child(1)",
+      "targets": [
+        ["css=h3:nth-child(1)", "css:finder"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'Komentari o teretani')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f82ee6d7-9787-4100-a1cf-efa6b3113af7",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h3:nth-child(1)",
+      "targets": [
+        ["css=h3:nth-child(1)", "css:finder"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'Komentari o teretani')]", "xpath:innerText"]
+      ],
+      "value": "Komentari o teretani"
+    }, {
+      "id": "27ab4ede-8add-4906-b418-c438621a334d",
+      "comment": "",
+      "command": "click",
+      "target": "css=h3:nth-child(6)",
+      "targets": [
+        ["css=h3:nth-child(6)", "css:finder"],
+        ["xpath=//h3[2]", "xpath:position"],
+        ["xpath=//h3[contains(.,'Komentari o trenerima')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ccadc828-6ecf-448e-9ee0-dceaccd1a3a7",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h3:nth-child(6)",
+      "targets": [
+        ["css=h3:nth-child(6)", "css:finder"],
+        ["xpath=//h3[2]", "xpath:position"],
+        ["xpath=//h3[contains(.,'Komentari o trenerima')]", "xpath:innerText"]
+      ],
+      "value": "Komentari o trenerima"
+    }]
+  }, {
+    "id": "c3af6fb4-2d2f-414c-9f07-35b31bb910e0",
+    "name": "gost_pregleda_komentare_o_treneru_nema_komentara",
+    "commands": [{
+      "id": "4cde7abc-ea49-41ba-97b5-86462db94543",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4568f699-d3a0-4215-ba16-037619b1177c",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1200x892",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8f7e01e1-0ed3-4dda-866c-3a7a7b01f0ac",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Nastavi bez prijavljivanja",
+      "targets": [
+        ["linkText=Nastavi bez prijavljivanja", "linkText"],
+        ["css=div:nth-child(9) > .link", "css:finder"],
+        ["xpath=//a[contains(text(),'Nastavi bez prijavljivanja')]", "xpath:link"],
+        ["xpath=//form[@id='loginForm']/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/gostPocetna')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Nastavi bez prijavljivanja')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "cf6ebcff-77ce-48fe-9c87-6072b623d382",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=O nama",
+      "targets": [
+        ["linkText=O nama", "linkText"],
+        ["css=.col-sm-4:nth-child(1) > .toolbar-item", "css:finder"],
+        ["xpath=//a[contains(text(),'O nama')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/gostKomentar')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'O nama')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ae6bbdc9-636f-432d-b0fc-bf60662a0860",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-komentar",
+      "targets": [
+        ["id=show-komentar", "id"],
+        ["css=#show-komentar", "css:finder"],
+        ["xpath=//button[@id='show-komentar']", "xpath:attributes"],
+        ["xpath=//div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Komentari')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f80ff82b-0db7-489b-8e8a-a2c3ab6ac248",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Ivan",
+      "targets": [
+        ["linkText=Ivan", "linkText"],
+        ["css=li:nth-child(7) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Ivan')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/trenerGost/24')]", "xpath:href"],
+        ["xpath=//li[7]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Ivan')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a42010f2-95fa-414d-9dd6-c1e8e2fea540",
+      "comment": "",
+      "command": "click",
+      "target": "css=p",
+      "targets": [
+        ["css=p", "css:finder"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Trenutno nema komentara o treneru.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e32d484c-2d49-466c-b101-c41c374964d3",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=p",
+      "targets": [
+        ["css=p", "css:finder"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Trenutno nema komentara o treneru.')]", "xpath:innerText"]
+      ],
+      "value": "Trenutno nema komentara o treneru."
+    }]
+  }, {
+    "id": "82ea2d11-951b-4865-b736-1c764df75cf6",
+    "name": "test_ukloni_trenera",
+    "commands": [{
+      "id": "f7ada9a5-dad7-4cc9-bd07-a217fcd99df1",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "98d9bbcf-ce5d-460f-b3c5-da5af67eaaf8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1200x892",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2047a477-f016-4634-9fdc-bf2a6240a33b",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fe9f4e51-7409-4da4-9f54-a18482cffae0",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "admin"
+    }, {
+      "id": "72b1a5e6-137e-4cba-9301-57df417d270b",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7fab22be-8da3-4176-9c93-f941175f9c0a",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "admin"
+    }, {
+      "id": "ec65c225-2899-46c1-b961-ab398559e3d5",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//form[@id='loginForm']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "c3e3d253-920e-4680-a476-9b76134adfce",
+      "comment": "",
+      "command": "click",
+      "target": "css=.col-sm-6:nth-child(3)",
+      "targets": [
+        ["css=.col-sm-6:nth-child(3)", "css:finder"],
+        ["xpath=//div[@onclick=\"toggleDropdown('dropdown3')\"]", "xpath:attributes"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fc266a85-4693-4969-8162-e6bc6f4f2f43",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Ukloni",
+      "targets": [
+        ["linkText=Ukloni", "linkText"],
+        ["css=#dropdown3 > a:nth-child(2)", "css:finder"],
+        ["xpath=(//a[contains(text(),'Ukloni')])[2]", "xpath:link"],
+        ["xpath=//div[@id='dropdown3']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/ukloniTrenera')]", "xpath:href"],
+        ["xpath=//div[3]/div/a[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "13133669-6ce3-4a91-acd0-89643fe64936",
+      "comment": "",
+      "command": "click",
+      "target": "id=trener_27",
+      "targets": [
+        ["id=trener_27", "id"],
+        ["css=#trener_27", "css:finder"],
+        ["xpath=//input[@id='trener_27']", "xpath:attributes"],
+        ["xpath=//form[@id='deleteForm']/div[8]/input", "xpath:idRelative"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "66e5408a-2d4f-45fc-b783-fb931c88fd0d",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(11)",
+      "targets": [
+        ["css=input:nth-child(11)", "css:finder"],
+        ["xpath=//input[@value='Potvrdi brisanje']", "xpath:attributes"],
+        ["xpath=//form[@id='deleteForm']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d60bf2ba-2553-4bbe-a6cf-ec1f0d1a58bf",
+      "comment": "",
+      "command": "click",
+      "target": "id=closeBtn",
+      "targets": [
+        ["id=closeBtn", "id"],
+        ["xpath=//button[@id='closeBtn']", "xpath:attributes"],
+        ["xpath=//div[@id='popup']/button", "xpath:idRelative"],
+        ["xpath=//div[4]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Da')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "86104bee-12fa-4afc-aa2e-c00a6809a757",
+      "comment": "",
+      "command": "click",
+      "target": "css=.col-sm-6:nth-child(3)",
+      "targets": [
+        ["css=.col-sm-6:nth-child(3)", "css:finder"],
+        ["xpath=//div[@onclick=\"toggleDropdown('dropdown3')\"]", "xpath:attributes"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a7abf513-ce21-4187-8f08-5b01c16e5c27",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Ukloni",
+      "targets": [
+        ["linkText=Ukloni", "linkText"],
+        ["css=#dropdown3 > a:nth-child(2)", "css:finder"],
+        ["xpath=(//a[contains(text(),'Ukloni')])[2]", "xpath:link"],
+        ["xpath=//div[@id='dropdown3']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/ukloniTrenera')]", "xpath:href"],
+        ["xpath=//div[3]/div/a[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "52ef0498-9c5f-4f81-883e-943c3223483e",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=LOG OUT",
+      "targets": [
+        ["linkText=LOG OUT", "linkText"],
+        ["css=div:nth-child(7) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'LOG OUT')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/logout')]", "xpath:href"],
+        ["xpath=//div[6]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'LOG OUT')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c8efd1eb-5c0b-4235-b267-2b963cf45aca",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "46f2be9d-c55a-4552-a7ab-69622f53f4fc",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["3dc72c9e-9013-4edf-8459-d549f273dd99"]
+  }],
+  "urls": ["http://127.0.0.1:8000/"],
+  "plugins": []
+}
