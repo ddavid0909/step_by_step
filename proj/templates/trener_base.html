@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <title>{% block title %}Trener Panel{% endblock %}</title>
+    {% block extra_style %} {% endblock %}
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-6">
+            <h1 id="StepByStepH1">Step By Step</h1>
+        </div>
+        <div class="col-sm-6" id="divHeader">
+            <button class="btn" id="userHeader"> {{ korisnik.mejl }} </button>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <div class="row">
+            <div class="col-sm-6 col-md-3 toolbar-item">
+                <a href="{% url 'trenerPocetna' %}" class="toolbar-item">Raspored</a>
+            </div>
+            <div class="col-sm-6 col-md-3 toolbar-item">
+                <a href="{% url 'trenerPregledTreninga' %}" class="toolbar-item">Moji treninzi</a>
+            </div>
+            <div class="col-sm-6 col-md-3 toolbar-item">
+                <a href="{% url 'dodajTerminPregled' %}" class="toolbar-item">Dodaj termin</a>
+            </div>
+            <div class="col-sm-6 col-md-3 toolbar-item">
+                <a href="{% url 'trenerTrener' korisnik.idkor %}" class="toolbar-item">Komentari</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    {% block content %}
+    {% endblock %}
+
+    <script>
+        function toggleDropdown(dropdownId) {
+            var dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(function(dropdown) {
+                if (dropdown.id !== dropdownId) {
+                    dropdown.style.display = "none";
+                }
+            });
+
+            var dropdown = document.getElementById(dropdownId);
+            if (dropdown) { // Proverite da li dropdown postoji
+                if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                    dropdown.style.display = "block";
+                } else {
+                    dropdown.style.display = "none";
+                }
+            }
+        }
+
+        // Dodajte događaj za skrivanje dropdown-a kada se klikne van njega
+        document.addEventListener('click', function(event) {
+            var isClickInside = false;
+
+            // Proverite da li je klik unutar toolbar-item ili dropdown
+            document.querySelectorAll('.toolbar-item').forEach(function(toolbarItem) {
+                if (toolbarItem.contains(event.target)) {
+                    isClickInside = true;
+                }
+            });
+
+            if (!isClickInside) {
+                document.querySelectorAll('.dropdown').forEach(function(dropdown) {
+                    dropdown.style.display = "none";
+                });
+            }
+        });
+    </script>
+
+    {% block extra_scripts %} {% endblock %}
+</body>
+</html>

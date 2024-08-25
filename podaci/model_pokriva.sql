@@ -1,0 +1,56 @@
+-- MySQL dump 10.13  Distrib 8.0.34, for macos13 (x86_64)
+--
+-- Host: 127.0.0.1    Database: model
+-- ------------------------------------------------------
+-- Server version	8.2.0
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `pokriva`
+--
+
+DROP TABLE IF EXISTS `pokriva`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pokriva` (
+  `IdPokriva` int NOT NULL AUTO_INCREMENT,
+  `IdPre` int NOT NULL,
+  `IdTre` int NOT NULL,
+  PRIMARY KEY (`IdPokriva`),
+  UNIQUE KEY `ak_pokriva` (`IdPre`,`IdTre`),
+  KEY `Trening pokriven_idx` (`IdTre`),
+  CONSTRAINT `Pretplata pokriva` FOREIGN KEY (`IdPre`) REFERENCES `pretplata` (`IdPre`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Trening pokriven` FOREIGN KEY (`IdTre`) REFERENCES `trening` (`idTre`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pokriva`
+--
+
+LOCK TABLES `pokriva` WRITE;
+/*!40000 ALTER TABLE `pokriva` DISABLE KEYS */;
+INSERT INTO `pokriva` VALUES (3,2,3),(4,2,4),(7,4,2),(8,4,4),(21,12,1),(22,12,2),(29,15,3),(30,15,4),(31,15,5),(32,16,3),(33,16,4),(34,16,5),(37,18,1),(38,18,2),(39,19,1),(40,19,2),(41,19,3),(42,19,4),(43,20,3),(44,20,4),(45,20,5),(46,21,1),(47,21,2),(48,21,3),(49,22,1),(50,22,2),(51,22,11),(52,22,12),(53,23,1),(54,23,2),(55,23,11),(56,23,12),(57,24,1),(58,24,2),(59,24,3),(60,25,1),(61,25,2),(62,25,3);
+/*!40000 ALTER TABLE `pokriva` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-05-31 22:03:48

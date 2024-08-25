@@ -1,0 +1,73 @@
+<!--Aleksandar Ilic 2021/0495-->
+<!--Sofija Martinovic 2021/0486-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Upload Image Form</title>
+    
+</head>
+<body>
+    <div class="row">
+        <div class = "col-sm-6">
+             <h1 id = "StepByStepH1">Step By Step</h1>
+        </div>
+
+    </div>
+
+       <div class="toolbar">
+       <div class = "row">
+        <div class="col-sm-4 toolbar-item" onclick="toggleDropdown('dropdown4')">
+             <a href="{% url 'gostKomentar' %}" id = "komentariLinkId" class="toolbar-item">O nama</a>
+        </div>
+         <div class="col-sm-4 toolbar-item" onclick="toggleDropdown('dropdown4')">
+        <a href="{% url 'gostPocetna' %}" id = "komentariLinkId" class="toolbar-item">Raspored</a>
+        </div>
+         <div class="col-sm-4 toolbar-item" onclick="toggleDropdown('dropdown4')">
+         <a href="{% url 'dostupniPaketiGost' %}" id = "komentariLinkId" class="toolbar-item">Paket</a>
+        </div>
+
+    </div>
+    </div>
+
+    <hr>
+    <div class="container">
+    <div class="logodiv"><img src="{% static 'images/stepbystep.jpeg' %}" alt="Logo" class="logo"></div>
+    <h3>Komentari</h3>
+    <form action="#" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">      
+        <hr>
+        <h3 id="podnaslov"></h3>        
+                {% if komentari %}
+        {% for komentar in komentari %}
+        	<div>
+            <h5 id="podnaslov">{{ komentar.idautor.mejl }}</h5>
+            <p> {{ komentar.tekst }} </p>
+        </div>
+        {% endfor %}
+            {% else %}
+             <div>
+        <p style="font-style: italic">Trenutno nema komentara o treneru.</p>
+    </div>
+        {% endif %}
+        <div style="  display: flex;justify-content: center">
+            <img src="data:image/jpeg;base64,{{ slika }}" alt="Slika" style="width: 150px; height: 150px">
+        </div>
+        <br>
+        <br>
+
+
+        <br>
+        <hr>
+        <br>                 
+    </form>
+</div>
+
+</body>
+
+</html>

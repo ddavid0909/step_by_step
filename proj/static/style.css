@@ -1,0 +1,481 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.container{
+    margin: 50px auto;
+    margin-top: 150px;
+    max-width: 500px;
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+}
+/*
+table {
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+    width: 70%;
+    table-layout: fixed;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}*/
+
+h3 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+    margin-top: 0px;
+
+}
+
+.sala {
+    color:rgb(233, 163, 34);
+}
+
+h1 {
+    margin-left:10px;
+    font-size: 36px;
+    margin-bottom: 30px;
+    margin-top:30px;
+    font-size: 40px;
+    color: rgb(255, 202, 104);
+    text-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+
+}
+
+h5 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+h6 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 18px;
+    margin-bottom: 5px;
+    margin-right: 15px;
+}
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border:none;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0px 0px 5px rgba(255, 165, 0, 0.5);
+}
+
+input[type="submit"] {
+    padding: 10px;
+    border:none;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: orange;
+    cursor:pointer;
+    box-shadow: 0px 0px 5px rgba(255, 165, 0, 0.5);
+}
+
+button {
+    padding: 15px;
+    margin-bottom:10px;
+    border:none;
+    border-radius: 5px;
+    font-size: 18px;
+
+    cursor:pointer;
+    background-color: rgb(255, 202, 104);
+    box-shadow: 0px 0px 5px rgba(255, 165, 0, 0.5);
+}
+
+input[type="submit"]:hover {
+    background-color: rgb(255, 202, 104);
+}
+
+button:hover {
+    background-color: orange;
+}
+
+body {
+    background-image: url("images/pozadina2.jpg");
+    background-size: cover;
+
+}
+
+div {
+    text-align: center;
+    margin-top: 15px;
+}
+
+a {
+    color: black;
+
+}
+
+a:hover {
+    color:rgb(255, 202, 104);
+}
+
+hr {
+    border-color:rgb(255, 202, 104);
+    border-width: 2px;
+    margin-bottom: 5px;
+}
+
+.reg {
+    margin-bottom: 0px;
+}
+
+#tim {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color:black;
+}
+
+.scheduleElem {
+    border: 5px solid rgba(255, 165, 0, 0.7);
+
+    background-color: rgb(255, 202, 104);
+    margin-top: 0px;
+}
+
+th, td {
+    vertical-align: top;
+    border-color: orange;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+   /* z-index: 1000;*/
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.toolbar {
+   /* display: flex;*/
+    justify-content: space-around;
+    align-items: center;
+    background-color: #333333b2;
+    padding: 10px;
+    border-bottom: 2px solid #555;
+    margin-top: 20px;
+
+}
+
+.toolbar-item {
+    position: relative;
+    cursor: pointer;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 0px;
+    font-size: 18px;
+
+}
+
+
+.toolbar-item:hover {
+    background-color: rgb(233, 163, 34);
+}
+
+
+.dropdown {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    background-color: rgb(255, 202, 104);
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.dropdown a {
+    display: block;
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.dropdown a:hover{
+   background-color: rgba(0, 0, 0, 0.14);
+}
+
+.toolbar-item.active .dropdown {
+    display: block;
+}
+
+a {
+    text-decoration: none;
+}
+.paket {
+    margin: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    padding: 8px;
+
+}
+
+h4 {
+    margin-top: 7px;
+    color: white;
+    font-size: 30px;
+    margin-bottom: 7px;
+}
+
+.imePaketa {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color:rgb(255, 202, 104);
+}
+
+.termini {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.8)
+}
+
+.fa-ul {
+    list-style-type: none; /* Uklanja podrazumevanu tačkicu */
+    padding-left: 0; /* Uklanja podrazumevanu levu marginu */
+    text-align: center; /* Centralizuje stavke liste */
+}
+
+.fa-ul li {
+    padding-left:0px;
+    margin-left: 0px;
+    margin-right:50px;/* Dodaje marginu između ikonice i teksta */
+    margin-bottom:20px;
+    display: flex; /* Koristi flexbox za prilagođavanje rasporeda */
+    align-items: center; /* Centralizuje ikonicu i tekst vertikalno */
+    justify-content: center; /* Centralizuje ikonicu i tekst horizontalno */
+    color: white;
+}
+
+.fa-ul li .fa-icon {
+    margin-right: 0.5em; /* Dodaje razmak između ikonice i teksta */
+}
+
+.paketi {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+fieldset {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+input[type="radio"] {
+    width: 20px; /* Postavlja širinu */
+    height: 20px; /* Postavlja visinu */
+    color: rgb(255, 202, 104);
+    border-radius: 0px;
+}
+
+.opcija {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+textarea {
+    resize: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-color: rgb(233, 163, 34);
+    font-size: 20px;
+}
+
+#podnaslov {
+    font-size: 25px;
+}
+
+#popup, #deleteConfirmation {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+}
+
+#closeBtn {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: orange;
+    cursor: pointer;
+    box-shadow: 0px 0px 5px rgba(255, 165, 0, 0.5);
+}
+
+.izbor:hover {
+    color: white;
+}
+
+.logo {
+    width: 20%;
+    height: 20%;
+    padding-bottom: 0px;
+}
+
+.logodiv {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#porukaGreske {
+    margin-top: 3px;
+    margin-bottom : 3px;
+
+    color:orange;
+}
+
+#StepByStepH1 {
+        display: flex;
+        justify-content: start;
+}
+
+#divHeader {
+        display: flex;
+        justify-content: end;
+        margin-top:30px;
+        padding-right: 40px;
+    }
+#userHeader {
+    background-color: orange;
+    color: white;
+    font-size: 20px;
+    }
+
+
+#komentariLinkId, #treninziLinkId, #odobravanjeKomentaraId {
+    color: white;
+}
+
+.owl-carousel .owl-item {
+    display: flex;
+    justify-content: center;
+    height: 700px;
+}
+.paket {
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    flex: 1 0 30%;
+
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+    border-radius: 10px;
+}
+.paketi {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+.imePaketa {
+    font-size: 24px;
+    color: rgb(255, 202, 104);
+}
+.termini, .imePaketa {
+    margin: 10px 0;
+}
+
+
+table {
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+    width: 80%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border-collapse: collapse;
+
+}
+th, td {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #FFA500;
+    width: 10%;
+}
+th {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+td {
+    background-color: rgba(91, 83, 70, 0.33);
+}
+.scheduleElem {
+    background-color: #eeb34d;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.scheduleElem div {
+    margin: 5px 0;
+}
+
+.centered-list {
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+}
+.centered-list li {
+    margin: 10px 0;
+    background-color: rgba(231, 167, 64, 0.93);
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    width: 200px;
+    box-shadow: 0px 0px 10px rgba(190, 126, 3, 0.99);
+}
+
+#paketiCarousela
+{
+    margin-top: 10px;
+}
+
+.btn {
+    background-color: black;
+    color: white;
+
+}
+.btn:hover{
+    background-color: orange;
+   color:white;
+}
+

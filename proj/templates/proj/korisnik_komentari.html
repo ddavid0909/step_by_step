@@ -1,0 +1,120 @@
+<!--Aleksandar Ilic 2021/0495-->
+<!--Sofija Martinovic 2021/0486-->
+{% extends 'korisnik_base.html' %}
+{% block title %} Korisnik Komentari {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="logodiv"><img src= '../../static/images/stepbystep.jpeg' alt="Logo" class="logo"></div>
+
+    <form action="prikaziTrenera" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+
+        <br>
+        <h3>Komentari o teretani</h3>
+        <hr>
+        <div>
+            <ul>
+                {% for komentar in komentari %}
+                    <p>
+                        {{ komentar.tekst }}
+                    <br>
+                    </p>
+                {% endfor %}
+            </ul>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <h3>Komentari o trenerima</h3>
+        <hr>
+        <div>
+            <ul>
+                {% for korisnik in treneri %}
+                    <li>
+                       <a href="{% url 'trenerKorisnik' korisnik.idkor %}">{{ korisnik.mejl }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </form>
+</div>
+<div id="popup">
+    <p>Da li ste sigurni da želite da izvršite zahtev (svi neoznačeni komentari će biti obrisani)?</p>
+    <button id="closeBtn" onclick="closePopup1()">Da</button>
+    <button id="closeBtn" onclick="closePopup()">Ne</button>
+    <p id="odgovor"></p>
+</div>
+
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+    {% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function validateForm() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var checked = false;
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                checked = true;
+            }
+        });
+        if (!checked) {
+            alert("Morate označiti barem jedan checkbox!");
+            return false;
+        }
+
+        showPopup();
+        return false;
+    }
+
+    function toggleDropdown(dropdownId) {
+        var dropdown = document.getElementById(dropdownId);
+        if (dropdown.style.display === "none" || dropdown.style.display === "") {
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+
+    function showPopup() {
+        // Prikazi popup
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        setTimeout(function () {
+            document.getElementById('popup').style.display = 'none';
+            window.location.href = "admin.html";
+        }, 500);
+    }
+
+    function showPopup() {
+        // Prikazi popup
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup1() {
+        const authMessage = document.getElementById("odgovor")
+        authMessage.textContent = "Trener uspešno obrisan.";
+        setTimeout(function () {
+            document.getElementById('popup').style.display = 'none';
+            window.location.href = "admin.html";
+        }, 1500);
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+
+    function toggleDropdown(dropdownId) {
+        var dropdown = document.getElementById(dropdownId);
+        if (dropdown.style.display === "none" || dropdown.style.display === "") {
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}

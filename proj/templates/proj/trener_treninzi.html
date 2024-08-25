@@ -1,0 +1,222 @@
+{% extends 'trener_base.html' %}
+{% block title %} Trener licni raspored {% endblock %}
+{% block extra_style %}
+<style>
+    .popup1 {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+        width: auto;
+        max-width: 90%;
+        height: auto;
+    }
+
+    .popup-content {
+        text-align: center;
+    }
+
+    .popup-content button {
+        margin: 10px;
+    }
+
+    .opcija {
+        display: flex;
+        align-items: center;
+    }
+
+    .opcija button {
+        margin-left: auto;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<h3 class="sala">Generalni raspored</h3>
+<table border="1" id="scheduleTable">
+    <tr>
+        <th>Ponedeljak</th>
+        <th>Utorak</th>
+        <th>Sreda</th>
+        <th>Četvrtak</th>
+        <th>Petak</th>
+        <th>Subota</th>
+        <th>Nedelja</th>
+    </tr>
+</table>
+
+        <div id="popup">
+        <div class="popup-content">
+            <p id="message"></p>
+            <br>
+        </div>
+    </div>
+
+<div id="popup1" class="popup1">
+    <div class="popup-content">
+        <p id="popupMessage"></p>
+        <button id="popupYes">Da</button>
+        <button id="popupNo">Ne</button>
+    </div>
+</div>
+
+<div>
+    <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+const korisnikMejl = '{{ korisnik.mejl }}';
+const termini = [
+    {% for termin in termini %}
+    {
+        Dan: '{{ termin.Dan }}',
+        Sala: { naziv: '{{ termin.Sala.naziv }}' },
+        Trening: { tip: '{{ termin.Trening.tip }}' },
+        IdDrzi: { idkor: { mejl: '{{ termin.IdDrzi.idkor.mejl }}' } },
+        Pocetak: '{{ termin.Pocetak }}',
+        Kraj: '{{ termin.Kraj }}',
+        Preostalo: {{ termin.Preostalo }},
+        Id : {{ termin.IdTer }}
+    },
+    {% endfor %}
+];
+const dani = ['PON', 'UTO', 'SRE', 'CET', 'PET', 'SUB', 'NED'];
+
+function createScheduleMatrix(termini) {
+    const scheduleMatrix = { PON: [], UTO: [], SRE: [], CET: [], PET: [], SUB: [], NED: [] };
+
+    termini.forEach(termin => {
+        if (termin.IdDrzi.idkor.mejl === korisnikMejl) {
+            scheduleMatrix[termin.Dan].push(termin);
+        }
+    });
+
+    for (const dan in scheduleMatrix) {
+        scheduleMatrix[dan].sort((a, b) => {
+            return a.Pocetak.localeCompare(b.Pocetak);
+        });
+    }
+
+    return scheduleMatrix;
+}
+
+function generateScheduleTable(scheduleMatrix, tableId) {
+    const table = document.getElementById(tableId);
+    const days = ['PON', 'UTO', 'SRE', 'CET', 'PET', 'SUB', 'NED'];
+
+    let maxRows = 0;
+    for (let i = 0; i < days.length; i++) {
+        const day = days[i];
+        if (scheduleMatrix[day].length > maxRows) {
+            maxRows = scheduleMatrix[day].length;
+        }
+    }
+
+    for (let i = 0; i < maxRows; i++) {
+        const row = document.createElement('tr');
+        days.forEach(day => {
+            const cell = document.createElement('td');
+            if (scheduleMatrix[day][i]) {
+                const termin = scheduleMatrix[day][i];
+                cell.innerHTML = `<div class="scheduleElem" id=${termin.Id}>
+                    ${termin.Trening.tip} <br>
+                    ${termin.IdDrzi.idkor.mejl} <br>
+                    ${termin.Pocetak} - ${termin.Kraj} <br>
+                    Preostalo ${termin.Preostalo} <br>
+                    Sala: ${termin.Sala.naziv}
+                </div>`;
+            }
+            row.appendChild(cell);
+        });
+        table.appendChild(row);
+    }
+}
+
+const scheduleMatrix = createScheduleMatrix(termini);
+generateScheduleTable(scheduleMatrix, 'scheduleTable');
+
+    function ale() {
+
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup1() {
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'none';
+                window.location.href='/trenerPregledTreninga';
+            }, 2000);
+        }
+
+        function closePopup() {
+                document.getElementById('popup').style.display = 'none';
+        }
+
+
+function showPopup(message, yesCallback, noCallback) {
+    document.getElementById('popupMessage').innerText = message;
+    document.getElementById('popup1').style.display = 'block';
+
+    document.getElementById('popupYes').onclick = function() {
+        document.getElementById('popup1').style.display = 'none';
+        yesCallback();
+    };
+
+    document.getElementById('popupNo').onclick = function() {
+        document.getElementById('popup1').style.display = 'none';
+        noCallback();
+    };
+}
+
+$(document).ready(function(){
+$('.scheduleElem').mousedown(function(event) {
+    switch (event.which) {
+        case 1:
+            showPopup(
+                "Da li želite da pregledate prisutne?",
+                function() {
+                    const idter = event.target.id;
+                    const form = $('<form action="/pregledPrisutnih" method="post">' +
+                        '<input type="hidden" name="idter" value="' + idter + '" />' +
+                        '{% csrf_token %}</form>');
+                    $('body').append(form);
+                    form.submit();
+                },
+                function() {
+
+                }
+            );
+            break;
+        case 3:
+            let odgovor = confirm("Desnim klikom se aktivira opcija brisanja. Da li zelite da obrisete termin?")
+            if (!odgovor) return;
+
+            fetch('/ukloniMojTermin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}' // Ensure CSRF token is included
+                    }, body: JSON.stringify({idter: $(this).attr('id')})
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        document.getElementById('message').innerText = data.message;
+                        ale();
+                        closePopup1();
+                    } else {
+                        document.getElementById('message').innerText = data.message;
+                        ale();
+                        closePopup1();
+                    }
+                });
+            break;
+    }
+});
+
+        });
+
+</script>
+
+{% endblock %}

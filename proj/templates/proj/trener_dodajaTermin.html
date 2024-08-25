@@ -1,0 +1,123 @@
+<!-- Sofija Martinovic 2021/0486-->
+
+{% extends 'trener_base.html' %}
+{% block title %} Trener Dodaj termin {% endblock %}
+{% block extra_style %}
+    <style>
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        option {
+            padding: 8px;
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        input[type="time"] {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+
+
+        <h3>Dodaj termin</h3>
+            <span id="porukaGreske"></span>
+            <form action="/dodavanjeTermina" id="loginForm" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="trener_id" value="{{ trener_id }}">
+            <label for="sale">Sala:</label>
+            <select name="sale" id="sale" required>
+                <option value="" disabled selected>Odaberite salu</option>
+                {% for s in sale %}
+                    <option class="izborSale" value="{{ s.idsala }}">{{ s.naziv }}</option>
+                {% endfor %}
+            </select>
+            <label for="dan">Dan:</label>
+            <select name="dan" id="dan" required>
+                <option value="" disabled selected>Odaberite dan</option>
+                <option value="Ponedeljak">Ponedeljak</option>
+                <option value="Utorak">Utorak</option>
+                <option value="Sreda">Sreda</option>
+                <option value="Cetvrtak">Četvrtak</option>
+                <option value="Petak">Petak</option>
+                <option value="Subota">Subota</option>
+                <option value="Nedelja">Nedelja</option>
+            </select>
+            <label for="timeStart">Od:</label>
+            <input type="time" id="timeStart" name="timeStart" required>
+            <label for="timeEnd">Do:</label>
+            <input type="time" id="timeEnd" name="timeEnd" required>
+            <label for="slobodnih">Broj mesta:</label>
+            <input type="number" id="slobodnih" name="slobodnih" required>
+            <h3 id="podnaslov">Označiti odgovarajuće tipove treninga</h3>
+
+             {% for trening in treninzi %}
+            <div class="opcija">
+            <label for="item{{trening.idtre}}">{{trening.Tip}}</label>
+            <input type="radio" id="item{{trening.idtre}}" name="radio" value="{{trening.Tip}}"checked>
+            </div>
+       {% endfor %}
+
+            <hr>
+
+            <input type="submit" value="Dodaj novi termin">
+        </form>
+    </div>
+    <hr>
+    <div id="popup" style="display: none;">
+        <p>Uspešno ste dodali termin!</p>
+        <button id="closeBtn" onclick="closePopup()">Zatvori</button>
+    </div>
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+        document.getElementById("porukaGreske").innerText = '{{ poruka }}' ;
+        function showPopup() {
+            var form = document.getElementById('loginForm');
+            var checkboxes = document.querySelectorAll('input[type=checkbox]');
+            var isChecked = false;
+            for (var checkbox of checkboxes) {
+                if (checkbox.checked) {
+                    isChecked = true;
+                    break;
+                }
+            }
+
+            if (form.checkValidity() && isChecked) {
+                document.getElementById('popup').style.display = 'block';
+            } else if (!isChecked) {
+                alert("Morate označiti bar jedan tip treninga.");
+            }
+        }
+
+        function closePopup() {
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'none';
+                document.getElementById('loginForm').reset();
+            }, 500);
+        }
+
+
+
+
+    </script>
+{% endblock %}

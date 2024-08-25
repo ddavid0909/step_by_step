@@ -1,0 +1,76 @@
+<!--David Duric 2021/0102-->
+{% extends 'korisnik_base.html' %}
+{% block title %} Korisnik komentarise {% endblock %}
+{% block extra_style %}
+    <style>
+        /* Dodati stil za popup */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+        }
+
+        #closeBtn {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: orange;
+            cursor: pointer;
+            box-shadow: 0px 0px 5px rgba(255, 165, 0, 0.5);
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+        <h3>O kome je komentar?</h3>
+        <form method="post">
+            {% csrf_token %}
+            <hr>
+            {% for trener in treneri %}
+            <div class="opcija">
+                <label for="{{ trener.idkor }}">{{ trener.mejl }}</label>
+                <input type="radio" name="trener" id="{{ trener.idkor }}" value="{{ trener.idkor }}">
+            </div>
+            {% endfor %}
+            <div class="opcija">
+                <label for="teretana">O teretani</label>
+                <input type="radio" name="trener" id="teretana" value="teretana" checked>
+            </div>
+            <hr>
+            <textarea name="komentar" id="komentar" cols="30" rows="10" maxlength="600" placeholder="Dozvoljeno do 600 znakova" required></textarea>
+            <input type="submit" value="Ostavi komentar">
+        </form>
+    </div>
+    <div id="popup">
+        <p>Uspešno ste ostavili komentar!</p>
+        <button id="closeBtn" onclick="closePopup()">Zatvori</button>
+    </div>
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+    {% endblock %}
+{% block extra_scripts %}
+    <script>
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'none';
+                window.location.href = "korisnik.html";
+            }, 500);
+        }
+    </script>
+
+{% endblock %}

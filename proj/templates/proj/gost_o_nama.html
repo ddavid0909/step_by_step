@@ -1,0 +1,294 @@
+<!--Kristina Kragovic 2021/0270
+    Aleksandar Ilic 2021/0495
+-->
+{% extends 'gost_base.html' %}
+{% block title %} Gost O Nama {% endblock %}
+{% block extra_style %}
+    <style>
+        #contact-form {
+            margin-top: 50px;
+        }
+        #contact-form .form-control {
+            margin-bottom: 20px;
+        }
+
+        #map-container {
+            margin-top: 50px;
+        }
+        #map {
+            width: 100%;
+            height: 500px;
+        }
+
+        .gallery-options {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .gallery-options button {
+            font-family: 'Spectral', sans-serif;
+            font-size: 20px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.45);
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 200px;
+        }
+
+        .gallery-options button:hover {
+            background-color: rgb(255, 202, 104);
+        }
+
+        .pictures, .info{
+            margin-top: 30px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            color: white;
+        }
+
+        .pictures img, .info iframe {
+            margin-bottom: 20px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .pictures .down-content, .info .down-content {
+            text-align: left;
+            color: white;
+            font-family: 'Spectral', serif;
+            font-size: 16px;
+        }
+
+        .pictures .down-content h4, .info .down-content h4 {
+            margin-top: 10px;
+            font-size: 20px;
+            text-transform: uppercase;
+            color: rgb(255, 202, 104)
+        }
+
+        .pictures .down-content span, .info .down-content span {
+            display: block;
+            font-size: 14px;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .container form {
+            display: inline-block;
+            text-align: left;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .owl-carousel .item {
+            position: relative;
+            padding: 10px;
+        }
+
+        .owl-carousel .item img {
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .owl-carousel .item .date, .owl-carousel .item .down-content {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+
+    <section class="gallery-options" style="margin-top: 70px">
+        <div class="row">
+            <div class="col-sm-4">
+                <button id="show-pictures" class="btn">Slike</button>
+            </div>
+            <div class="col-sm-4">
+                <button id="show-info" class="btn">Informacije</button>
+            </div>
+            <div class="col-sm-4">
+                <button id="show-komentar" class="btn">Komentari</button>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="content-section">
+        <div class="row">
+      <div class="d-flex justify-content-center">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="pictures">
+            <div id="picturesCarousel" class="owl-carousel owl-theme">
+                <div class="item">
+                    <img src="../../static/images/slika1.jpg" alt="">
+
+                    <div class="down-content">
+                        <h4>Sala za Pilates, Aerobic i Individualne Treninge</h4>
+                        <span>Teretana / Sala za Pilates, Aerobic i Individualne Treninge</span>
+                        <p>Sala u veselim bojama pogodna je za pilates, aerobic i individualne treninge. Ovde možete uživati u raznovrsnim vežbama uz motivišuću atmosferu.</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="../../static/images/slika2.jpg" alt="">
+
+                    <div class="down-content">
+                        <h4>Sala za Powerlifting i Personalne Treninge</h4>
+                        <span>Teretana / Sala za Powerlifting i Personalne Treninge</span>
+                        <p>Ova sala opremljena je za powerlifting i personalne treninge. Pruža vam mogućnost da radite na snazi i izdržljivosti uz podršku naših trenera.</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="../../static/images/slika3.jpg" alt="">
+
+                    <div class="down-content">
+                        <h4>Trake za Trčanje za Kardio Trening</h4>
+                        <span>Teretana / Trake za Trčanje za Kardio Trening</span>
+                        <p>Naša teretana poseduje moderne trake za trčanje koje vam omogućavaju efikasan kardio trening. Ostanite u formi uz redovno trčanje.</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="../../static/images/slika4.jpg" alt="">
+
+                    <div class="down-content">
+                        <h4>Deo za Jogu i Individualne Treninge</h4>
+                        <span>Teretana / Deo za Jogu i Individualne Treninge</span>
+                        <p>Ovaj deo teretane namenjen je jogi i individualnim treninzima. Opuštajuća atmosfera omogućava vam da se fokusirate na svoj unutrašnji mir i fizičku formu.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-6 col-md-offset-2">
+                    <div class="info">
+                        <h2>Kontakt</h2>
+                        <p>Telefon: 011 123 456</p>
+                        <p>Email: stepbystep@gmail.com</p>
+
+                        <h2>Radno vreme</h2>
+                        <p>Ponedeljak-Nedelja: 08:00am-10:00pm</p>
+
+                        <h2>Adresa</h2>
+                        <p>Bulevar kralja Aleksandra 73, Beograd</p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="info">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2830.7833082058733!2d20.47371291216516!3d44.805604570950074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7a9f5f2a8821%3A0x419a5e3aa04ea915!2sTechnical%20faculties%20building%2C%20Bulevar%20kralja%20Aleksandra%2073%2C%20Beograd!5e0!3m2!1sen!2srs!4v1716472349204!5m2!1sen!2srs" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="komentar">
+                        <div class="container">
+                            <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+                            <form action="prikaziTrenera" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                                <h3>Komentari o teretani</h3>
+                                <hr>
+                                <div>
+                                    <ul>
+                                        {% for komentar in komentari %}
+                                        <p>{{ komentar.tekst }}<br></p>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <hr>
+                                <br>
+                                <h3>Komentari o trenerima</h3>
+                                <hr>
+                                <div>
+                                    <ul>
+                                        {% for korisnik in treneri %}
+                                        <li>
+                                            <a href="{% url 'trenerGost' korisnik.idkor %}">{{ korisnik.mejl }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+        function showPictures() {
+            $(".pictures").show();
+            $(".info").hide();
+            $(".komentar").hide();
+        }
+
+        function showInfo() {
+            $(".pictures").hide();
+            $(".komentar").hide();
+            $(".info").show();
+        }
+
+        function showKomentar() {
+            $(".pictures").hide();
+            $(".komentar").show();
+            $(".info").hide();
+        }
+
+        $(document).ready(function() {
+            $("#show-pictures").click(function() {
+                showPictures();
+            });
+
+            $("#show-info").click(function() {
+                showInfo();
+            });
+
+            $("#show-komentar").click(function() {
+                showKomentar();
+            });
+
+            showPictures();
+
+            $('#picturesCarousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                dots: true,
+                autoplay: true,
+                autoplayTimeout: 3000, // 3 sekunde
+                autoplayHoverPause: true,
+                items: 1
+            });
+        });
+
+        function toggleDropdown(dropdownId) {
+            var dropdown = document.getElementById(dropdownId);
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+    </script>
+{% endblock %}

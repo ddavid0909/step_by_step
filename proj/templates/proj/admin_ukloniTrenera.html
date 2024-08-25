@@ -1,0 +1,123 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Brisanje Trenera{% endblock %}
+
+{% block extra_style %}
+<style>
+    #popup, #popup1 {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+    }
+
+    #closeBtn {
+        margin-top: 10px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: orange;
+        cursor: pointer;
+        box-shadow: 0px 0px 5px rgba(255, 165, 0, 0.5);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container komentarisi">
+    <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+    <h3>Brisanje trenera</h3>
+    <form action="{% url 'ukloniTreneraPrimeni' %}" method="post" id="deleteForm" onsubmit="showPopup(event)">
+        {% csrf_token %}
+        <hr>
+        {% for trener in treneri %}
+            <div class="opcija">
+                <label for="trener_{{ trener.idkor }}">{{ trener.mejl }}</label>
+                <input type="radio" name="trener_id" value="{{ trener.idkor }}" id="trener_{{ trener.idkor }}">
+            </div>
+        {% endfor %}
+        <input type="submit" value="Potvrdi brisanje">
+        <input type="hidden" id="redirectUrl" name="redirect_url" value="{% url 'adminPocetna' %}">
+    </form>
+</div>
+
+<div id="popup">
+    <p>Da li ste sigurni da želite da obrišete trenera? <br> Ovo će nepovratno ukloniti i sve njegove termine</p>
+    <button type="button" id="closeBtn" onclick="closePopup1()">Da</button>
+    <button type="button" id="closeBtn" onclick="closePopup()">Ne</button>
+    <p id="odgovor"></p>
+</div>
+
+<div id="popup1">
+    <p>Uspešno ste obrisali trenera.</p>
+</div>
+
+<div>
+    <a class="btn" href="{% url 'logout' %}">LOG OUT</a>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function showPopup(event) {
+        event.preventDefault();
+        var selectedTrainerId = document.querySelector('input[name="trener_id"]:checked');
+        if (selectedTrainerId) {
+            document.getElementById('popup').style.display = 'block';
+        } else {
+            alert("Molimo vas da izaberete trenera.");
+        }
+    }
+
+    function closePopup1() {
+        document.getElementById('popup').style.display = 'none';
+        document.getElementById('popup1').style.display = 'block';
+
+        setTimeout(function() {
+            var form = document.getElementById('deleteForm');
+            var formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = document.getElementById('redirectUrl').value;
+                } else {
+                    alert('Došlo je do greške pri brisanju trenera.');
+                }
+            }).catch(error => {
+                console.error('Greška:', error);
+            });
+
+        }, 2000);
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+
+    function toggleDropdown(dropdownId) {
+        var dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(function(dropdown) {
+            if (dropdown.id !== dropdownId) {
+                dropdown.style.display = "none";
+            }
+        });
+        var dropdown = document.getElementById(dropdownId);
+        if (dropdown.style.display === "none" || dropdown.style.display === "") {
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}

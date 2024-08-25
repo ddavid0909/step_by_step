@@ -1,0 +1,80 @@
+<!-- Aleksandar Ilic 2021/0495 -->
+
+{% extends 'trener_base.html' %}
+{% block title %} Trener Evidencija {% endblock %}
+{% block extra_style %}
+
+    <style>
+        .opcija {
+            display: flex;
+            align-items: center;
+        }
+
+        .opcija button {
+            margin-left: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+        <h3>Prijavljeni</h3>
+        <form method="POST" action="/potvrdiPrisutne" id="loginForm">
+            {% csrf_token %}
+            <hr>
+            <h3 id="podnaslov">Evidentirati prisutne označavanjem čekboksa</h3>
+            <h3> Pazljivo cekirajte prisustvo clanova! </h3>
+            {% for p, aktivnaPretplata in parovi %}
+                <div class="opcija">
+                    <label for="item{{ p.idprati }}">{{ p.idkor.mejl }}</label>
+                    {% if aktivnaPretplata %}
+                        <input type="checkbox" id="item{{ p.idprati }}" name="{{ p.idkor.idkor }}" value="{{ p.idkor.idkor }}">
+                    {% endif %}
+                    <button type="button" class="izmeni" onclick="izbaci(event, {{ p.idkor.idkor }})">Izbaci</button>
+                </div>
+            {% endfor %}
+            <input type="hidden" name="id_termina" value="{{ id_termina }}">
+            <hr>
+            <input type="submit" value="Potvrdi">
+        </form>
+    </div>
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+
+    <hr>
+
+    <div id="deleteConfirmation" style="display: none;">
+        <p>Da li ste sigurni da želite da izbacite ovu osobu?</p>
+        <button onclick="confirmDelete()">Da</button>
+        <button onclick="closeDeleteConfirmationPopup()">Ne</button>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+ <script>
+        function izbaci(event, idKorisnika) {
+            event.preventDefault();
+            document.getElementById('deleteConfirmation').style.display = 'block';
+            window.clickedButton = event.target;
+            window.idKorisnika = idKorisnika;
+        }
+
+        function closeDeleteConfirmationPopup() {
+            document.getElementById('deleteConfirmation').style.display = 'none';
+        }
+
+        function confirmDelete() {
+            closeDeleteConfirmationPopup();
+            var form = document.getElementById('loginForm');
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'id_korisnika';
+            input.value = window.idKorisnika;
+            form.appendChild(input);
+            form.action = '/izbacivanjeSaTermina';
+            form.submit();
+        }
+    </script>
+{% endblock %}

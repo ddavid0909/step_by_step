@@ -1,0 +1,60 @@
+<!-- Kristina Kragovic 2021/0270
+    Aleksandar Ilic 2021/0495 -->
+{% extends 'admin_base.html' %}
+{% block title %} Admin komentari {% endblock %}
+{% block content %}
+    <div class="container">
+        <h3>Komentari</h3>
+        <form id="commentForm" action="/odobravanjeKomentara" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <hr>
+            <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+            <h3 id="podnaslov">Označi komentare koje želiš da odobriš!</h3>
+
+            {% if komentari %}
+                {% for komentar in komentari %}
+                    <div class="opcija">
+                        <label for="item{{ komentar.idkom }}">{{ komentar.tekst }}</label>
+                        <input type="checkbox" id="item{{ komentar.idkom }}" name="item{{ komentar.idkom }}">
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="font-style: italic;">Nema komentara za odobravanje</p>
+            {% endif %}
+
+            <br>
+            <hr>
+            <br>
+            <input type="submit" value="Odobri!">
+        </form>
+    </div>
+
+    <div id="popup" style="display: none;">
+        <p>Uspešno ste odobrili komentare koje ste želeli!</p>
+    </div>
+
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+        function validateForm() {
+            var odgovor = confirm("Označeni komentari će biti potvrđeni i ubuduće prikazivani drugim korisnicima. Ostali komentari će biti nepovratno obrisani. Da li to želite?");
+            if (odgovor) {
+
+                document.getElementById('popup').style.display = 'block';
+
+                setTimeout(function() {
+                    document.getElementById('commentForm').submit();
+                }, 1500);
+                return false;
+            }
+            return false;
+        }
+
+
+    </script>
+
+{% endblock %}

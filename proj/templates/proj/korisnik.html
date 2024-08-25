@@ -1,0 +1,188 @@
+<!--Aleksandar Ilic 2021/0495
+    Sofija Martinovic 2021/0486
+-->
+{% extends 'korisnik_base.html' %}
+{% block title %} Korisnik Pocetna {% endblock %}
+{% block content %}
+
+
+    {% for sala in sale %}
+        <h3 class="sala">{{ sala.naziv }}</h3>
+        <table border="1" id="{{ sala.idsala }}">
+            <tr>
+                <th>Ponedeljak</th>
+                <th>Utorak</th>
+                <th>Sreda</th>
+                <th>Cetvrtak</th>
+                <th>Petak</th>
+                <th>Subota</th>
+                <th>Nedelja</th>
+            </tr>
+        </table>
+    {% endfor %}
+
+    <div id="popup">
+        <div class="popup-content">
+            <p id="message"></p>
+            <br>
+        </div>
+    </div>
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+
+        const termini = [
+            {% for termin in termini %}
+            {
+                Dan: '{{ termin.Dan }}',
+                Sala: { naziv: '{{ termin.Sala.naziv }}' },
+                Trening: { tip: '{{ termin.Trening.tip }}', idtrening: {{ termin.Trening.idtre }} },
+                IdDrzi: { idkor: { mejl: '{{ termin.IdDrzi.idkor.mejl }}' } },
+                Pocetak: '{{ termin.Pocetak }}',
+                Kraj: '{{ termin.Kraj }}',
+                Preostalo: {{ termin.Preostalo }},
+                Id: {{ termin.IdTer }}
+            },
+            {% endfor %}
+        ];
+
+        const pokriva_trening_ids = {{ pokriva_trening_ids|safe }};
+
+        function createScheduleMatrix(termini) {
+            const scheduleMatrix = {};
+
+            {% for sala in sale %}
+                scheduleMatrix['{{sala.naziv}}'] = { PON: [], UTO: [], SRE: [], CET: [], PET: [], SUB: [], NED: [] };
+            {% endfor %}
+
+            termini.forEach(termin => {
+                if (scheduleMatrix[termin.Sala.naziv]) {
+                    scheduleMatrix[termin.Sala.naziv][termin.Dan].push(termin);
+                }
+            });
+
+            for (const sala in scheduleMatrix) {
+                for (const dan in scheduleMatrix[sala]) {
+                    scheduleMatrix[sala][dan].sort((a, b) => a.Pocetak.localeCompare(b.Pocetak));
+                }
+            }
+
+            return scheduleMatrix;
+        }
+
+        function generateScheduleTable(scheduleMatrix, sala, tableId) {
+            const table = document.getElementById(tableId);
+            const days = ['PON', 'UTO', 'SRE', 'CET', 'PET', 'SUB', 'NED'];
+
+            let maxRows = 0;
+            for (let i = 0; i < days.length; i++) {
+                const day = days[i];
+                if (scheduleMatrix[sala][day].length > maxRows) {
+                    maxRows = scheduleMatrix[sala][day].length;
+                }
+            }
+
+            for (let i = 0; i < maxRows; i++) {
+                const row = document.createElement('tr');
+                days.forEach(day => {
+                    const cell = document.createElement('td');
+                    if (scheduleMatrix[sala][day][i]) {
+                        const termin = scheduleMatrix[sala][day][i];
+                        const covered = pokriva_trening_ids.includes(termin.Trening.idtrening);
+                        cell.innerHTML = `<div class="scheduleElem" id='${termin.Id}' style="${covered ? 'background-color: lightgray;' : ''}">
+                            ${termin.Trening.tip} <br>
+                            ${termin.IdDrzi.idkor.mejl} <br>
+                            ${termin.Pocetak} - ${termin.Kraj} <br>
+                            Preostalo ${termin.Preostalo}
+                        </div>`;
+                    }
+                    row.appendChild(cell);
+                });
+                table.appendChild(row);
+            }
+        }
+
+        const scheduleMatrix = createScheduleMatrix(termini);
+
+        {% for sala in sale %}
+            generateScheduleTable(scheduleMatrix, '{{ sala.naziv }}', '{{ sala.idsala }}');
+        {% endfor %}
+
+
+        function ale() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+
+        function updateTermini() {
+            $.ajax({
+                url: '{% url "get_updated_termini" %}',
+                method: 'GET',
+                success: function(response) {
+                    var table;
+                    {% for sala in sale %}
+                        table = document.getElementById('{{ sala.idsala }}');
+                        while (table.rows.length > 1) {
+                            table.deleteRow(1);
+                        }
+                    {% endfor %}
+
+                    const updatedTermini = response.termini;
+                    const newScheduleMatrix = createScheduleMatrix(updatedTermini);
+
+                    {% for sala in sale %}
+                        generateScheduleTable(newScheduleMatrix, '{{ sala.naziv }}', '{{ sala.idsala }}');
+                    {% endfor %}
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching updated termini:", error);
+                }
+            });
+}
+
+
+        setInterval(updateTermini, 10000);
+
+        function closePopup1() {
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'none';
+                updateTermini()
+            }, 5000);
+        }
+
+        $(document).ready(function() {
+
+            $('body').on('click', '.scheduleElem', function() {
+
+                fetch('/dodajMeUTermin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({idter: $(this).attr('id')})
+                }).then(response => response.json()).then(data => {
+                    document.getElementById('message').innerText = data.message;
+                    ale();
+                    closePopup1();
+                }).catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('message').innerText = 'An error occurred. Please try again.';
+                    ale();
+                    closePopup1();
+                });
+            });
+        });
+
+    </script>
+{% endblock %}

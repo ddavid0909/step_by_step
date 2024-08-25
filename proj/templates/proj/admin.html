@@ -1,0 +1,107 @@
+<!-- -->
+
+{% extends 'admin_base.html' %}
+{% block title %} Admin Pocetna {% endblock %}
+{% block content %}
+
+        <div id="paketiCarousel" class="owl-carousel owl-theme paketi">
+        {% for paket in paketi %}
+        <div class="paket">
+            <h3 class="imePaketa">{{ paket.Naziv }}</h3>
+            <hr>
+            <div class="container paket">
+                <h4>{{ paket.Cena }} RSD</h4>
+            </div>
+            <div class="termini">Broj termina: {{ paket.BrTermina }} termina</div>
+            <div class="termini">Broj dana: {{ paket.Dana }} dana</div>
+            <hr>
+            {% for trening in paket.obuhvata %}
+            <div>
+                <ul class="fa-ul">
+                    <li><span class="fa-icon" data-trening="{{ trening }}"><i class="fas"></i></span>{{ trening }}</li>
+                </ul>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+    function toggleDropdown(dropdownId) {
+            var dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(function(dropdown) {
+                if (dropdown.id !== dropdownId) {
+                    dropdown.style.display = "none";
+                }
+            });
+            var dropdown = document.getElementById(dropdownId);
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+
+         $('#paketiCarousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                dots: true,
+                autoplay: true,
+                autoplayTimeout: 3000, // 3 sekunde
+                autoplayHoverPause: true,
+                items: 3,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 3
+                    }
+                }
+            });
+
+            // Dodavanje ikonica u zavisnosti od tipa treninga
+            $('.fa-icon').each(function() {
+                var trening = $(this).data('trening');
+                var broj = Math.floor(Math.random()*6 +1);
+                var iconClass;
+                switch (broj) {
+                    case 1:
+                        iconClass = 'fas fa-spa';
+                        break;
+                    case 2:
+                        iconClass = 'fas fa-dumbbell';
+                        break;
+                    case 3:
+                        iconClass = 'fas fa-heartbeat';
+                        break;
+                    case 4:
+                        iconClass = 'fas fa-child';
+                        break;
+                    case 5:
+                        iconClass = 'fas fa-running';
+                        break;
+                    case 6:
+                        iconClass = 'fas fa-circle';
+                        break;
+                    default:
+                        iconClass = 'fas fa-question';
+                }
+                $(this).find('i').addClass(iconClass);
+            });
+
+
+
+    </script>
+{% endblock %}

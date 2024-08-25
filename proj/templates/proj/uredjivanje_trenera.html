@@ -1,0 +1,81 @@
+<!--David Duric 2021/0102-->
+{% extends 'admin_base.html' %}
+{% block title %} Uredi Trenera {% endblock %}
+{% block content %}
+
+    <div class="container">
+        <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+        <h3>Uredjivanje trenera</h3>
+
+        <form id="trainerForm" action="{% url 'primeniPromeneNadTrenerom'%}" method="post" enctype="multipart/form-data" onsubmit="analyze(event)">
+
+            {% csrf_token %}
+            <hr>
+            <h3 id="podnaslov">Označiti odgovarajuće tipove treninga</h3>
+            <input type="hidden" name="trener_id" value="{{ trener.idkor }}">
+
+            {% for trening in treninzi %}
+                <div class="opcija">
+                    <label for="item{{trening.idtre}}">{{trening.Tip}}</label>
+                    <input type="checkbox" id="item{{trening.idtre}}" name="item{{trening.idtre}}">
+                </div>
+            {% endfor %}
+
+            <hr>
+            <label for="image">Izaberite sliku (JPG, JPEG ili PNG):</label>
+            <input type="file" id="image" name="image" accept="image/jpeg, image/jpg, image/png">
+            <br>
+            <input type="submit" value="Potvrdi promenu">
+        </form>
+    </div>
+    <div id="popup" style="display: none;">
+        <p>Uspešno ste uredili trenera!</p>
+
+    </div>
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+
+    <script>
+        function validateForm() {
+            return true;
+        }
+
+        function toggleDropdown(dropdownId) {
+            var dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(function(dropdown) {
+                if (dropdown.id !== dropdownId) {
+                    dropdown.style.display = "none";
+                }
+            });
+            var dropdown = document.getElementById(dropdownId);
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            setTimeout(function () {
+                closePopup();
+                document.getElementById('trainerForm').submit();
+            }, 2000);
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        function analyze(event) {
+            event.preventDefault();
+            if (validateForm()) {
+                showPopup();
+            }
+        }
+    </script>
+{% endblock %}

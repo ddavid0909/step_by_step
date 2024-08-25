@@ -1,0 +1,45 @@
+<!--Aleksandar Ilic 2021/0495-->
+<!--Sofija Martinovic 2021/0486-->
+
+{% extends 'trener_base.html' %}
+{% block title %} Trener Komentari {% endblock %}
+{% block content %}
+
+
+    <div class="container">
+    <div class="logodiv"><img src='../../static/images/stepbystep.jpeg' alt="Logo" class="logo"></div>
+    <h3>Komentari</h3>
+    <form action="#" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <hr>
+        <h3 id="podnaslov"></h3>
+        {% if komentari %}
+        {% for komentar in komentari %}
+        	<div>
+            <h5 id="podnaslov">{{ komentar.idautor.mejl }}</h5>
+            <p> {{ komentar.tekst }} </p>
+        </div>
+        {% endfor %}
+            {% else %}
+             <div>
+        <p style="font-style: italic">Trenutno nema komentara o treneru.</p>
+    </div>
+        {% endif %}
+        <div style="  display: flex;justify-content: center">
+            <img src="data:image/jpeg;base64,{{ slika }}" alt="Slika" style="width: 150px; height: 150px">
+        </div>
+        <br>
+        <br>
+
+
+        <br>
+        <hr>
+        <br>
+    </form>
+
+</div>
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+
+{% endblock %}

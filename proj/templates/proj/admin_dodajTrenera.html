@@ -1,0 +1,152 @@
+<!-- David Duric 2021/0102  -->
+{% extends 'admin_base.html' %}
+
+{% block title %}Dodavanje Trenera{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+    <h3>Dodavanje trenera</h3>
+    <form action="/dodavanjeTrenera" method="post" enctype="multipart/form-data" id="fileUploadForm">
+        {% csrf_token %}
+        <hr>
+        <label for="username">Korisničko ime:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Šifra:</label>
+        <input type="password" id="password" name="password" required>
+        <hr>
+        <h3 id="podnaslov">Označiti odgovarajuće tipove treninga</h3>
+
+       {% for trening in treninzi %}
+            <div class="opcija">
+            <label for="item{{trening.idtre}}">{{trening.Tip}}</label>
+            <input type="checkbox" id="item{{trening.idtre}}" name="item{{trening.idtre}}">
+            </div>
+       {% endfor %}
+
+        <hr>
+        <label for="image">Izaberite sliku (JPG, JPEG ili PNG):</label>
+        <input type="file" id="image" name="image" accept="image/jpeg, image/jpg, image/png" required>
+        <br>
+        <input type="submit" value="Dodaj novog trenera!">
+    </form>
+</div>
+<div id="popup" style="display: none;">
+    <p id="popupMessage"></p>
+    <button id="closeBtn" onclick="closePopup()">Zatvori</button>
+</div>
+
+<div>
+    <a class="btn" href="{% url 'logout' %}">LOG OUT</a>
+</div>
+
+<script>
+    function validateForm() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var checked = false;
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                checked = true;
+            }
+        });
+        if (!checked) {
+            alert("Morate označiti barem jedan checkbox!");
+            return false;
+        }
+        var image = document.getElementById('image').files[0];
+            if (!image) {
+                alert("Morate izabrati sliku!");
+                return false;
+            }
+            if (image.type !== 'image/jpg' && image.type !== 'image/jpeg' && image.type !== 'image/png') {
+                alert('Pogresan tip fajla! Pokusajte ponovo');
+                return false;
+            }
+
+        var ime = document.getElementById('username').value;
+        var lozinka = document.getElementById('password').value;
+
+        console.log(ime);
+        console.log(lozinka);
+
+        if (!ime || ime === '') {
+            alert('Morate popuniti korisnicko ime');
+            return false;
+        }
+
+        if (!lozinka || lozinka === '') {
+            alert('Morate uneti lozinku!');
+            return false;
+        }
+
+        if (lozinka.length < 10) {
+            alert('Lozinka mora imati najmanje 10 znakova');
+            return false;
+        }
+        return true;
+    }
+
+     document.getElementById('fileUploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent the default form submission
+            if (!validateForm()) return;
+            // Access the file input element
+            var fileInput = document.getElementById('image');
+            var file = fileInput.files[0];  // Get the first file
+
+            if (file) {
+                console.log('File name:', file.name);
+                console.log('File size:', file.size);
+                console.log('File type:', file.type);
+
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    console.log('File content:', e.target.result);
+                };
+                reader.readAsText(file);
+
+
+                if (file.type.startsWith('image/')) {
+                    var img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    document.body.appendChild(img);
+                }
+                document.getElementById('fileUploadForm').submit();
+            } else {
+                alert("Niste izabrali fajl")
+            }
+        });
+
+    function toggleDropdown(dropdownId) {
+        var dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(function(dropdown) {
+            if (dropdown.id !== dropdownId) {
+                dropdown.style.display = "none";
+            }
+        });
+        var dropdown = document.getElementById(dropdownId);
+        if (dropdown.style.display === "none" || dropdown.style.display === "") {
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+
+    function showPopup(message) {
+        document.getElementById('popupMessage').textContent = message;
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        setTimeout(function () {
+            document.getElementById('popup').style.display = 'none';
+            window.location.href = "{% url 'adminPocetna' %}";
+        }, 500);
+    }
+
+    if ({{provera}} == 0) {
+        showPopup("Uspešno ste dodali trenera!");
+    } else if ({{provera}} == -1) {
+        showPopup("Trener sa datim imenom već postoji.");
+    }
+</script>
+{% endblock %}

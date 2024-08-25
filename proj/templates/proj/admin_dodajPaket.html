@@ -1,0 +1,103 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Dodaj Paket{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+    <h3>Dodaj paket</h3>
+    <hr>
+    <form action="/dodavanjePaketa" id="loginForm" method="POST">
+        {% csrf_token %}
+        <label for="nazivPaketa">Naziv paketa:</label>
+        <input type="text" name="nazivPaketa" id="nazivPaketa" required>
+
+        <label for="value1">Broj termina: </label>
+        <input type="number" name="brojTermina" id="value1" required>
+
+        <label for="value2">Broj dana: </label>
+        <input type="number" name="brojDana" id="value2" required>
+
+        <label for="value3">Cena: </label>
+        <input type="number" name="cenaPaketa" id="value3" required placeholder="Cena je u dinarima">
+
+        <hr>
+        <h3 id="podnaslov">Označiti odgovarajuće tipove treninga</h3>
+        {% for trening in treninzi %}
+        <div class="opcija">
+            <label for="item{{trening.idtre}}">{{trening.Tip}}</label>
+            <input type="checkbox" id="item{{trening.idtre}}" name="item{{trening.idtre}}" class="checkbox">
+        </div>
+        {% endfor %}
+
+        <hr>
+        <input type="submit" value="Dodaj">
+    </form>
+</div>
+
+<div>
+    <a class="btn" href="{% url 'logout' %}">LOG OUT</a>
+</div>
+
+<div id="popup">
+    <p id="popupMessage"></p>
+    <button id="closeBtn">Zatvori</button>
+</div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        var value1 = document.getElementById("value1").value;
+        var value2 = document.getElementById("value2").value;
+        var value3 = document.getElementById("value3").value;
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var checked = false;
+
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                checked = true;
+            }
+        });
+
+        if (!checked) {
+            alert("Morate označiti bar jedan tip treninga.");
+            event.preventDefault();
+            return;
+        }
+
+        if (isNaN(value1) || isNaN(value2) || isNaN(value3)) {
+            alert("Unesite validne celobrojne vrednosti za sva polja.");
+            event.preventDefault();
+            return;
+        } else if (value1 <= 0 || value2 <= 0 || value3 <= 0) {
+            alert("Unesite pozitivan broj za polja Broj termina, Broj dana ili Cena.");
+            event.preventDefault();
+            return;
+        }
+    });
+
+    document.getElementById("closeBtn").addEventListener("click", function() {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("value1").value = "";
+        document.getElementById("value2").value = "";
+        document.getElementById("value3").value = "";
+        setTimeout(function() {
+        }, 500);
+    });
+
+    var popup = document.getElementById("popup");
+    var popupMessage = document.getElementById("popupMessage");
+
+    if ({{provera}} == 0) {
+        popupMessage.textContent = "Uspešno ste dodali paket!";
+        popup.style.display = "block";
+    } else if ({{provera}} == -1) {
+        popupMessage.textContent = "Paket sa datim imenom već postoji.";
+        popup.style.display = "block";
+    }
+
+    document.getElementById("closeBtn").addEventListener("click", function() {
+        document.getElementById("popup").style.display = "none";
+        window.location.href = "{% url 'adminPocetna' %}";
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,119 @@
+<!--Aleksandar Ilic 2021/0495-->
+{% extends 'admin_base.html' %}
+{% block title %} Ukloni Paket {% endblock %}
+{% block extra_style %}
+    <style>
+        .container{
+            margin: 50px auto;
+            margin-top: 150px;
+            max-width: 500px;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        input[type="number"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border:none;
+            border-radius: 5px;
+            font-size: 16px;
+            box-shadow: 0px 0px 5px rgba(255, 165, 0, 0.5);
+        }
+
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+        }
+
+        #closeBtn {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: orange;
+            cursor: pointer;
+            box-shadow: 0px 0px 5px rgba(255, 165, 0, 0.5);
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div class="container komentaris">
+        <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+        <h3>Ukloni paket</h3>
+        <form method="POST" action="/ukloniPaketPrimeni" id="loginForm" onsubmit="showPopup();">
+        {% csrf_token %}
+            <hr>
+            {% for paket in paketi %}
+            <div class="opcija"><label for="{{ paket.Naziv }}">{{ paket.Naziv }}</label><input type="radio" value="{{ paket.Naziv }}" name="paket" id="{{ paket.Naziv }}"></div>
+            {% endfor %}
+            <input type="submit" value="Potvrdi brisanje">
+        </form>
+    </div>
+
+    <div id="popup">
+        <p>Uspesno ste obrisali paket.</p>
+
+    </div>
+
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+
+function showPopup() {
+           event.preventDefault();
+        document.getElementById('popup').style.display = 'block';
+        setTimeout(function () {
+            document.getElementById('loginForm').submit();
+        }, 3000);
+
+        }
+
+        function closePopup1() {
+            event.preventDefault();
+            const authMessage = document.getElementById("odgovor")
+            authMessage.textContent = "Paket je uspešno obrisan.";
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'none';
+                var form = document.getElementById('loginForm')
+                form.submit()
+            }, 3000);
+        }
+
+        function closePopup() {
+                document.getElementById('popup').style.display = 'none';
+        }
+
+        function toggleDropdown(dropdownId) {
+            var dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(function(dropdown) {
+                if (dropdown.id !== dropdownId) {
+                    dropdown.style.display = "none";
+                }
+            });
+            var dropdown = document.getElementById(dropdownId);
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+    </script>
+{% endblock %}

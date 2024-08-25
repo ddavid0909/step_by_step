@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <title>{% block title %}Admin Panel{% endblock %}</title>
+    {% block extra_style %} {% endblock %}
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-sm-6">
+            <h1 id="StepByStepH1">Step By Step</h1>
+        </div>
+        <div class="col-sm-6" id="divHeader">
+            <button class="btn" id="userHeader"> Admin </button>
+        </div>
+    </div>
+    <div class="toolbar">
+        <div class="row">
+            <div class="col-sm-6 col-md-3 toolbar-item" onclick="toggleDropdown('dropdown1')" data-dropdown="dropdown1">Paketi
+                <div id="dropdown1" class="dropdown">
+                    <a href="{% url 'dodajPaket' %}">Dodaj</a>
+                    <a href="{% url 'ukloniPaket' %}">Ukloni</a>
+                    <a href="{% url 'urediPaket' %}">Uredi</a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 toolbar-item" data-dropdown="dropdown2">
+                <a href="{% url 'dodajTreningPregled' %}" id="treninziLinkId" style="width: 100%">Treninzi</a>
+            </div>
+            <div class="col-sm-6 col-md-3 toolbar-item" onclick="toggleDropdown('dropdown3')" data-dropdown="dropdown3">Treneri
+                <div id="dropdown3" class="dropdown">
+                    <a href="{% url 'dodajTreneraPregled' %}">Dodaj</a>
+                    <a href="{% url 'ukloniTrenera' %}">Ukloni</a>
+                    <a href="{% url 'urediTrenera' %}">Uredi</a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 toolbar-item" data-dropdown="dropdown4">
+                <a href="{% url 'odobriKomentarPregled' %}" id="komentariLinkId">Komentari</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    {% block content %}
+    {% endblock %}
+
+    <script>
+        function toggleDropdown(dropdownId) {
+            var dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(function(dropdown) {
+                if (dropdown.id !== dropdownId) {
+                    dropdown.style.display = "none";
+                }
+            });
+
+            var dropdown = document.getElementById(dropdownId);
+            if (dropdown) { // Proverite da li dropdown postoji
+                if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                    dropdown.style.display = "block";
+                } else {
+                    dropdown.style.display = "none";
+                }
+            }
+        }
+
+        // Dodajte događaj za skrivanje dropdown-a kada se klikne van njega
+        document.addEventListener('click', function(event) {
+            var isClickInside = false;
+
+            // Proverite da li je klik unutar toolbar-item ili dropdown
+            document.querySelectorAll('.toolbar-item').forEach(function(toolbarItem) {
+                if (toolbarItem.contains(event.target)) {
+                    isClickInside = true;
+                }
+            });
+
+            if (!isClickInside) {
+                document.querySelectorAll('.dropdown').forEach(function(dropdown) {
+                    dropdown.style.display = "none";
+                });
+            }
+        });
+    </script>
+
+    {% block extra_scripts %} {% endblock %}
+</body>
+
+</html>

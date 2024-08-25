@@ -1,0 +1,42 @@
+<!--Aleksandar Ilic 2021/0495-->
+<!--Sofija Martinovic 2021/0486-->
+{% extends 'gost_base.html' %}
+{% block title %} Gost O Paketi {% endblock %}
+{% block content %}
+    <div class="paketi">
+
+         {% for paket in paketi %}
+
+            <div class="container paket">
+            <h3 class="imePaketa">{{ paket.Naziv }}</h3>
+            <hr>
+            <div class="container paket">
+                <h4>{{ paket.Cena }}</h4>
+            </div>
+           <div class="termini">{{ paket.BrTermina}}</div>
+            <div class="termini">{{ paket.Dana }}</div>
+
+             {% for trening in paket.obuhvata %}
+                <div>
+                    <ul class="fa-ul">
+                        <li><span class="fa-icon"><i class="fas fa-spa"></i></span>{{ trening }}</li>
+                    </ul>
+                </div>
+             {% endfor %}
+         </div>
+        {% endfor %}   
+       
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+        function toggleDropdown(dropdownId) {
+            var dropdown = document.getElementById(dropdownId);
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,122 @@
+<!-- Sofija Martinovic 2021/0486 -->
+{% extends 'korisnik_base.html' %}
+{% block title %} Korisnik Paketi {% endblock %}
+{% block content %}
+    <div id="paketiCarousel" class="owl-carousel owl-theme paketi">
+        {% for paket in paketi %}
+        <div class="paket">
+            <h3 class="imePaketa">{{ paket.Naziv }}</h3>
+            <hr>
+            <div class="container paket">
+                <h4>{{ paket.Cena }} RSD</h4>
+            </div>
+            <div class="termini">Broj termina: {{ paket.BrTermina }} termina</div>
+            <div class="termini">Broj dana: {{ paket.Dana }} dana</div>
+            <hr>
+            {% for trening in paket.obuhvata %}
+            <div>
+                <ul class="fa-ul">
+                    <li><span class="fa-icon" data-trening="{{ trening }}"><i class="fas"></i></span>{{ trening }}</li>
+                </ul>
+            </div>
+            {% endfor %}
+            <button type="submit" class="choose-btn" id="{{ paket.Naziv }}">Izaberi</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+
+    <div id="popup" style="z-index: 1000">
+        <p id="message"></p>
+        <br>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+
+
+        function ale() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup1() {
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'none';
+                window.location.href = '/korisnikPocetna';
+            }, 2000);
+        }
+
+        $(document).ready(function () {
+            $(".choose-btn").click(function () {
+
+                fetch('/paketiKorisnikaOdabranPaket', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ paket_naziv: $(this).attr('id') })
+                }).then(response => response.json()).then(data => {
+                    document.getElementById('message').innerText = data.message;
+                    ale();
+                    closePopup1();
+                });
+            });
+
+            $('#paketiCarousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                dots: true,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: true,
+                items: 3,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 3
+                    }
+                }
+            });
+
+
+            $('.fa-icon').each(function() {
+                var trening = $(this).data('trening');
+                var broj = Math.floor(Math.random()*6 +1);
+                var iconClass;
+                switch (broj) {
+                    case 1:
+                        iconClass = 'fas fa-spa';
+                        break;
+                    case 2:
+                        iconClass = 'fas fa-dumbbell';
+                        break;
+                    case 3:
+                        iconClass = 'fas fa-heartbeat';
+                        break;
+                    case 4:
+                        iconClass = 'fas fa-child';
+                        break;
+                    case 5:
+                        iconClass = 'fas fa-running';
+                        break;
+                    case 6:
+                        iconClass = 'fas fa-circle';
+                        break;
+                    default:
+                        iconClass = 'fas fa-question';
+                }
+                $(this).find('i').addClass(iconClass);
+            });
+        });
+    </script>
+{% endblock %}

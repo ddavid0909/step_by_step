@@ -1,0 +1,151 @@
+<!--David Duric 2021/0102-->
+<!--Kristina Kragovic 2021/0270-->
+{% extends 'korisnik_base.html' %}
+{% block title %} Korisnik Treninzi {% endblock %}
+{% block content %}
+
+
+   <h3 class="sala">Moj raspored</h3>
+    <table border="1" id="scheduleTable">
+        <tr>
+            <th>Ponedeljak</th>
+            <th>Utorak</th>
+            <th>Sreda</th>
+            <th>Četvrtak</th>
+            <th>Petak</th>
+            <th>Subota</th>
+            <th>Nedelja</th>
+        </tr>
+    </table>
+
+     <div id="popup">
+        <div class="popup-content">
+            <p id="message"></p>
+            <br>
+        </div>
+    </div>
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+
+
+{% endblock %}
+{% block extra_scripts %}
+<script>
+
+    const termini = [
+            {% for termin in termini %}
+            {
+                Dan: '{{ termin.Dan }}',
+                Sala: { naziv: '{{ termin.Sala.naziv }}' },
+                Trening: { tip: '{{ termin.Trening.Tip }}' },
+                IdDrzi: { idkor: { mejl: '{{ termin.IdDrzi.idkor.mejl }}' } },
+                Pocetak: '{{ termin.Pocetak }}',
+                Kraj: '{{ termin.Kraj }}',
+                Preostalo: {{ termin.Preostalo }},
+                Id : {{ termin.IdTer }}
+            },
+            {% endfor %}
+        ];
+
+    const dani = ['PON', 'UTO', 'SRE', 'CET', 'PET', 'SUB', 'NED'];
+
+    function createScheduleMatrix(termini) {
+        const scheduleMatrix = { PON: [], UTO: [], SRE: [], CET: [], PET: [], SUB: [], NED: [] };
+
+
+            termini.forEach(termin => {
+                scheduleMatrix[termin.Dan].push(termin);
+
+        });
+
+        for (const dan in scheduleMatrix) {
+            scheduleMatrix[dan].sort((a, b) => {
+                return a.Pocetak.localeCompare(b.Pocetak);
+            });
+        }
+
+        return scheduleMatrix;
+    }
+
+    function generateScheduleTable(scheduleMatrix, tableId) {
+        const table = document.getElementById(tableId);
+        const days = ['PON', 'UTO', 'SRE', 'CET', 'PET', 'SUB', 'NED'];
+
+        let maxRows = 0;
+        for (let i = 0; i < days.length; i++) {
+            const day = days[i];
+            if (scheduleMatrix[day].length > maxRows) {
+                maxRows = scheduleMatrix[day].length;
+            }
+        }
+
+        for (let i = 0; i < maxRows; i++) {
+            const row = document.createElement('tr');
+            days.forEach(day => {
+                const cell = document.createElement('td');
+                if (scheduleMatrix[day][i]) {
+                    const termin = scheduleMatrix[day][i];
+                    cell.innerHTML = `<div class="scheduleElem" id='${termin.Id}'>
+                            ${termin.Trening.tip} <br>
+                            ${termin.IdDrzi.idkor.mejl} <br>
+                            ${termin.Sala.naziv} <br>
+                            ${termin.Pocetak} - ${termin.Kraj} <br>
+                            Preostalo ${termin.Preostalo}
+                            </div>`;
+                }
+                row.appendChild(cell);
+            });
+            table.appendChild(row);
+        }
+    }
+
+    const scheduleMatrix = createScheduleMatrix(termini);
+    generateScheduleTable(scheduleMatrix, 'scheduleTable');
+
+     function ale() {
+            // Prikazi popup
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup1() {
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'none';
+                window.location.href='/korisnikPregledTreninga';
+            }, 2000);
+        }
+
+        function closePopup() {
+                document.getElementById('popup').style.display = 'none';
+        }
+
+        $(document).ready(function(){
+            $(".scheduleElem").click(function() {
+                potvrda = confirm("Da li ste sigurni da zelite da se odjavite?");
+                if (potvrda == null || !potvrda) return;
+                fetch('/izbaciMeIzTermina', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }, body: JSON.stringify({idter: $(this).attr('id')})
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        document.getElementById('message').innerText = data.message;
+                        ale();
+                        closePopup1();
+                    } else {
+                        document.getElementById('message').innerText = data.message;
+                        ale();
+                        closePopup1();
+                    }
+                });
+            });
+
+        });
+
+
+</script>
+
+{% endblock %}

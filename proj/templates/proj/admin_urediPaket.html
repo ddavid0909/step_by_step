@@ -1,0 +1,66 @@
+<!-- Sofija Martinovic 2021/0486 -->
+{% extends 'admin_base.html' %}
+{% block title %} Uredi Paket {% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+        <h3>Uređivanje paketa</h3>
+        <form id="loginForm" onsubmit="selectTrener(event)" method="POST">
+        {% csrf_token %}
+            <hr>
+            {% for paket in paketi %}
+                <div class="opcija">
+                    <label for="{{ paket.idpak }}">{{ paket.Naziv }}</label>
+                    <input type="radio" name="trener" id="{{ paket.idpak }}" value="{{ paket.idpak }}">
+                </div>
+            {% endfor %}
+             <input type="submit" value="Uredi">
+        </form>
+    </div>
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script>
+        function selectTrener(event) {
+            event.preventDefault();
+            const inputs = document.getElementsByTagName('input');
+            let selectedTrener = null;
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].type === 'radio' && inputs[i].checked) {
+                    selectedTrener = inputs[i];
+                    break;
+                }
+            }
+
+            if (selectedTrener) {
+                const trenerId = selectedTrener.value;
+                console.log('Selected trener ID:', trenerId);
+                if (!trenerId) {
+                    alert("ID trenera nije postavljen.");
+                    return;
+                }
+                document.getElementById('loginForm').action = `/novaFormaPregled/${trenerId}`;
+                document.getElementById('loginForm').submit();
+            } else {
+                alert("Molimo odaberite paket.");
+            }
+        }
+
+         function toggleDropdown(dropdownId) {
+            var dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(function(dropdown) {
+                if (dropdown.id !== dropdownId) {
+                    dropdown.style.display = "none";
+                }
+            });
+            var dropdown = document.getElementById(dropdownId);
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+    </script>
+{% endblock %}

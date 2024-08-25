@@ -1,0 +1,114 @@
+{% extends 'trener_base.html' %}
+{% block title %} Trener Glavna {% endblock %}
+{% block content %}
+
+    {% for sala, treninzi in sale_i_treninzi %}
+        <h3 class="sala">{{ sala.naziv }}</h3>
+        <ul class="centered-list">
+            {% for trening in treninzi %}
+                <li>{{ trening }}</li>
+            {% endfor %}
+        </ul>
+    <table border="1" id="{{ sala.idsala }}">
+        <tr>
+            <th>Ponedeljak</th>
+            <th>Utorak</th>
+            <th>Sreda</th>
+            <th>Cetvrtak</th>
+            <th>Petak</th>
+            <th>Subota</th>
+            <th>Nedelja</th>
+        </tr>
+    </table>
+    {% endfor %}
+
+
+
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+    {% endblock %}
+    {% block extra_scripts %}
+    <script>
+        const termini = [
+            {% for termin in termini %}
+            {
+                Dan: '{{ termin.Dan }}',
+                Sala: { naziv: '{{ termin.Sala.naziv }}' },
+                Trening: { tip: '{{ termin.Trening.tip }}' },
+                IdDrzi: { idkor: { mejl: '{{ termin.IdDrzi.idkor.mejl }}' } },
+                Pocetak: '{{ termin.Pocetak }}',
+                Kraj: '{{ termin.Kraj }}',
+                Preostalo: {{ termin.Preostalo }},
+                Id: {{ termin.IdTer }}
+            },
+            {% endfor %}
+        ];
+
+        function createScheduleMatrix(termini) {
+            const scheduleMatrix = {};
+
+
+             {% for sala, _ in sale_i_treninzi %}
+                scheduleMatrix['{{sala.naziv}}'] = { PON: [], UTO: [], SRE: [], CET: [], PET: [], SUB: [], NED: [] };
+            {% endfor %}
+
+            termini.forEach(termin => {
+                if (scheduleMatrix[termin.Sala.naziv]) {
+                    scheduleMatrix[termin.Sala.naziv][termin.Dan].push(termin);
+                }
+            });
+
+            for (const sala in scheduleMatrix) {
+                for (const dan in scheduleMatrix[sala]) {
+                    scheduleMatrix[sala][dan].sort((a, b) => a.Pocetak.localeCompare(b.Pocetak));
+                }
+            }
+
+            return scheduleMatrix;
+        }
+
+        function generateScheduleTable(scheduleMatrix, sala, tableId) {
+            const table = document.getElementById(tableId);
+            const days = ['PON', 'UTO', 'SRE', 'CET', 'PET', 'SUB', 'NED'];
+
+            let maxRows = 0;
+            for (let i = 0; i < days.length; i++) {
+                const day = days[i];
+                console.log(scheduleMatrix)
+                console.log(scheduleMatrix[sala])
+                console.log(scheduleMatrix[sala][day])
+                console.log(scheduleMatrix[sala][day].length)
+                if (scheduleMatrix[sala][day].length > maxRows) {
+                    maxRows = scheduleMatrix[sala][day].length;
+                }
+            }
+
+            for (let i = 0; i < maxRows; i++) {
+                const row = document.createElement('tr');
+                days.forEach(day => {
+                    const cell = document.createElement('td');
+                    if (scheduleMatrix[sala][day][i]) {
+                        const termin = scheduleMatrix[sala][day][i];
+                        cell.innerHTML = `<div class="scheduleElem" id='${termin.Id}'>
+                            ${termin.Trening.tip} <br>
+                            ${termin.IdDrzi.idkor.mejl} <br>
+                            ${termin.Pocetak} - ${termin.Kraj} <br>
+                            Preostalo ${termin.Preostalo}
+                        </div>`;
+                    }
+                    row.appendChild(cell);
+                });
+                table.appendChild(row);
+            }
+        }
+
+        const scheduleMatrix = createScheduleMatrix(termini);
+
+       // generateScheduleTable(scheduleMatrix, 'Ivana Spanovic', 'scheduleTable{{ sala.IdSale }}');
+        {% for sale, _ in sale_i_treninzi %}
+            generateScheduleTable(scheduleMatrix, '{{ sale.naziv }}', '{{ sale.idsala }}');
+        {% endfor %}
+    </script>
+{% endblock %}

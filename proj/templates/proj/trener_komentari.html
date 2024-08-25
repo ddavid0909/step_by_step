@@ -1,0 +1,30 @@
+<!--Kristina Kragovic 2021/0270-->
+{% extends 'trener_base.html' %}
+{% block title %} Trener Komentari {% endblock %}
+{% block content %}
+
+    <div class="container">
+    <div class="logodiv"><img src="../../static/images/stepbystep.jpeg" alt="Logo" class="logo"></div>
+    <h3>Komentari</h3>
+    <form action="#" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+      
+        <h3>Komentari o trenerima</h3>
+        <hr>
+        <div>
+            <ul>
+                {% for korisnik in treneri %}
+                    <li>
+                       <a href="{% url 'trenerTrener' korisnik.idkor %}">{{ korisnik.mejl }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+    </form>
+
+    <div>
+        <a class="btn"  href="{% url 'logout' %}">LOG OUT</a>
+    </div>
+
+</div>
+{% endblock %}
