@@ -1,0 +1,256 @@
+
+CREATE TABLE [Drzi]
+( 
+	[IdKor]              integer  NOT NULL ,
+	[IdTre1]             integer  NOT NULL ,
+	[IdDrzi]             char(18)  NOT NULL 
+)
+go
+
+CREATE TABLE [Komentar]
+( 
+	[IdKom]              integer  IDENTITY  NOT NULL ,
+	[Tekst]              varchar(200)  NOT NULL ,
+	[Status]             integer  NOT NULL ,
+	[Datum]              datetime  NOT NULL ,
+	[IdAutor]            integer  NULL ,
+	[IdKomentarisan]     integer  NOT NULL 
+)
+go
+
+CREATE TABLE [Korisnik]
+( 
+	[IdKor]              integer  IDENTITY  NOT NULL ,
+	[Mejl]               varchar(45)  NOT NULL ,
+	[Uloga]              varchar(45)  NOT NULL ,
+	[Sifra]              varchar(45)  NOT NULL ,
+	[Slika]              varbinary  NULL 
+)
+go
+
+CREATE TABLE [Obuhvata]
+( 
+	[IdPak]              integer  NOT NULL ,
+	[IdTre]              integer  NOT NULL ,
+	[IdObuh]             char(18)  NOT NULL 
+)
+go
+
+CREATE TABLE [Paket]
+( 
+	[IdPak]              integer  IDENTITY  NOT NULL ,
+	[BrTermina]          integer  NULL ,
+	[Dana]               integer  NULL ,
+	[Cena]               integer  NULL ,
+	[Naziv]              varchar(40)  NULL 
+)
+go
+
+CREATE TABLE [Podrzava]
+( 
+	[IdSala]             integer  NOT NULL ,
+	[IdTre2]             integer  NOT NULL ,
+	[IdPodrzava]         integer  NOT NULL 
+)
+go
+
+CREATE TABLE [Pokriva]
+( 
+	[IdPre]              integer  NOT NULL ,
+	[IdTre]              integer  NOT NULL ,
+	[IdPokriva]          char(18)  NOT NULL 
+)
+go
+
+CREATE TABLE [Prati]
+( 
+	[IdKor]              integer  NOT NULL ,
+	[IdTer]              integer  NOT NULL ,
+	[IdPrati]            char(18)  NOT NULL 
+)
+go
+
+CREATE TABLE [Pretplata]
+( 
+	[IdPre]              integer  IDENTITY  NOT NULL ,
+	[DatumDo]            datetime  NOT NULL ,
+	[PreostaloTermina]   integer  NOT NULL ,
+	[IdPretplaceni]      integer  NOT NULL 
+)
+go
+
+CREATE TABLE [Sala]
+( 
+	[IdSala]             integer  IDENTITY  NOT NULL ,
+	[Naziv]              varchar(45)  NULL 
+)
+go
+
+CREATE TABLE [Termin]
+( 
+	[IdTer]              integer  IDENTITY  NOT NULL ,
+	[Dan]                varchar(20)  NULL ,
+	[Pocetak]            TIME  NULL ,
+	[Kraj]               TIME  NULL ,
+	[Preostalo]          integer  NULL ,
+	[IdDrzi]             char(18)  NOT NULL ,
+	[IdPodrzava]         integer  NOT NULL 
+)
+go
+
+CREATE TABLE [Trening]
+( 
+	[IdTre]              integer  IDENTITY  NOT NULL ,
+	[Tip]                varchar(45)  NULL 
+)
+go
+
+ALTER TABLE [Drzi]
+	ADD CONSTRAINT [XPKDrzi] PRIMARY KEY  CLUSTERED ([IdDrzi] ASC)
+go
+
+ALTER TABLE [Komentar]
+	ADD CONSTRAINT [XPKKomentar] PRIMARY KEY  CLUSTERED ([IdKom] ASC)
+go
+
+ALTER TABLE [Korisnik]
+	ADD CONSTRAINT [XPKKorisnik] PRIMARY KEY  CLUSTERED ([IdKor] ASC)
+go
+
+ALTER TABLE [Korisnik]
+	ADD CONSTRAINT [XAK1Korisnik] UNIQUE ([Mejl]  ASC)
+go
+
+ALTER TABLE [Obuhvata]
+	ADD CONSTRAINT [XPKObuhvata] PRIMARY KEY  CLUSTERED ([IdObuh] ASC)
+go
+
+ALTER TABLE [Paket]
+	ADD CONSTRAINT [XPKPaket] PRIMARY KEY  CLUSTERED ([IdPak] ASC)
+go
+
+ALTER TABLE [Podrzava]
+	ADD CONSTRAINT [XPKPodrzava] PRIMARY KEY  CLUSTERED ([IdPodrzava] ASC)
+go
+
+ALTER TABLE [Pokriva]
+	ADD CONSTRAINT [XPKPokriva] PRIMARY KEY  CLUSTERED ([IdPokriva] ASC)
+go
+
+ALTER TABLE [Prati]
+	ADD CONSTRAINT [XPKPrati] PRIMARY KEY  CLUSTERED ([IdPrati] ASC)
+go
+
+ALTER TABLE [Pretplata]
+	ADD CONSTRAINT [XPKPretplata] PRIMARY KEY  CLUSTERED ([IdPre] ASC)
+go
+
+ALTER TABLE [Sala]
+	ADD CONSTRAINT [XPKSala] PRIMARY KEY  CLUSTERED ([IdSala] ASC)
+go
+
+ALTER TABLE [Termin]
+	ADD CONSTRAINT [XPKTermin] PRIMARY KEY  CLUSTERED ([IdTer] ASC)
+go
+
+ALTER TABLE [Trening]
+	ADD CONSTRAINT [XPKTrening] PRIMARY KEY  CLUSTERED ([IdTre] ASC)
+go
+
+
+ALTER TABLE [Drzi]
+	ADD CONSTRAINT [R_5] FOREIGN KEY ([IdKor]) REFERENCES [Korisnik]([IdKor])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Drzi]
+	ADD CONSTRAINT [R_6] FOREIGN KEY ([IdTre1]) REFERENCES [Trening]([IdTre])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [Komentar]
+	ADD CONSTRAINT [R_7] FOREIGN KEY ([IdAutor]) REFERENCES [Korisnik]([IdKor])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Komentar]
+	ADD CONSTRAINT [R_8] FOREIGN KEY ([IdKomentarisan]) REFERENCES [Korisnik]([IdKor])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [Obuhvata]
+	ADD CONSTRAINT [R_3] FOREIGN KEY ([IdPak]) REFERENCES [Paket]([IdPak])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Obuhvata]
+	ADD CONSTRAINT [R_4] FOREIGN KEY ([IdTre]) REFERENCES [Trening]([IdTre])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [Podrzava]
+	ADD CONSTRAINT [R_10] FOREIGN KEY ([IdSala]) REFERENCES [Sala]([IdSala])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Podrzava]
+	ADD CONSTRAINT [R_11] FOREIGN KEY ([IdTre2]) REFERENCES [Trening]([IdTre])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [Pokriva]
+	ADD CONSTRAINT [R_2] FOREIGN KEY ([IdPre]) REFERENCES [Pretplata]([IdPre])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Pokriva]
+	ADD CONSTRAINT [R_1] FOREIGN KEY ([IdTre]) REFERENCES [Trening]([IdTre])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [Prati]
+	ADD CONSTRAINT [R_14] FOREIGN KEY ([IdKor]) REFERENCES [Korisnik]([IdKor])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Prati]
+	ADD CONSTRAINT [R_15] FOREIGN KEY ([IdTer]) REFERENCES [Termin]([IdTer])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [Pretplata]
+	ADD CONSTRAINT [R_16] FOREIGN KEY ([IdPretplaceni]) REFERENCES [Korisnik]([IdKor])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+
+ALTER TABLE [Termin]
+	ADD CONSTRAINT [R_12] FOREIGN KEY ([IdPodrzava]) REFERENCES [Podrzava]([IdPodrzava])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Termin]
+	ADD CONSTRAINT [R_13] FOREIGN KEY ([IdDrzi]) REFERENCES [Drzi]([IdDrzi])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
